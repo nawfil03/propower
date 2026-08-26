@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 480" fill="none">
+  <rect x="1" y="1" width="518" height="478" rx="20" stroke="#2a4a80" stroke-width="1"/>
+  <g stroke="#3a5a8f" stroke-width="1" opacity="0.5">
+    <path d="M0 60 H520 M0 120 H520 M0 180 H520 M0 240 H520 M0 300 H520 M0 360 H520 M0 420 H520"/>
+    <path d="M60 0 V480 M120 0 V480 M180 0 V480 M240 0 V480 M300 0 V480 M360 0 V480 M420 0 V480 M480 0 V480"/>
+  </g>
+
+  <!-- Substation / switchgear panel line-art -->
+  <g stroke="#d9ab5c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="120" y="130" width="280" height="220" rx="10"/>
+    <path d="M120 190 H400 M120 250 H400 M120 310 H400"/>
+    <path d="M170 130 V350 M260 130 V350 M350 130 V350"/>
+    <circle cx="195" cy="160" r="9"/>
+    <circle cx="285" cy="160" r="9"/>
+    <circle cx="375" cy="220" r="9"/>
+    <circle cx="195" cy="280" r="9"/>
+    <path d="M195 169 V220" />
+    <path d="M285 169 V220" />
+  </g>
+
+  <g stroke="#e7c789" stroke-width="1.2" opacity="0.7">
+    <path d="M400 220 H460 V90 H340"/>
+    <path d="M120 220 H70 V400 H230"/>
+  </g>
+  <g fill="#d9ab5c">
+    <circle cx="460" cy="90" r="4"/>
+    <circle cx="70" cy="400" r="4"/>
+    <circle cx="230" cy="400" r="3"/>
+  </g>
+
+  <text x="140" y="410" fill="#5fd4c4" font-family="monospace" font-size="11" opacity="0.7">LV / MV — 11kV BUSBAR</text>
+</svg>

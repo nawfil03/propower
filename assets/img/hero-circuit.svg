@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 620" fill="none">
+  <g opacity="0.9" stroke="#d9ab5c" stroke-width="1.4">
+    <!-- Transmission tower silhouette -->
+    <path d="M320 40 L260 200 L200 200 L150 610" stroke-linecap="round"/>
+    <path d="M320 40 L380 200 L440 200 L490 610" stroke-linecap="round"/>
+    <path d="M260 200 L440 200" />
+    <path d="M235 260 L445 260" />
+    <path d="M215 330 L465 330" />
+    <path d="M190 410 L490 410" />
+    <path d="M320 40 L320 610" stroke-dasharray="2 8" opacity="0.5"/>
+    <path d="M235 260 L320 40 L445 260" />
+    <path d="M215 330 L320 40 L465 330" />
+    <!-- Cross braces -->
+    <path d="M200 200 L235 260 M440 200 L445 260 M235 260 L215 330 M445 260 L465 330 M215 330 L190 410 M465 330 L490 410" stroke-opacity="0.55"/>
+  </g>
+
+  <!-- Circuit nodes and traces -->
+  <g stroke="#e7c789" stroke-width="1.2" opacity="0.75">
+    <path d="M40 520 H160 M160 520 V470 M160 470 H260" />
+    <path d="M40 460 H120 M120 460 V420 H210" />
+    <path d="M520 120 H600 M600 120 V180 H560" />
+    <path d="M540 60 H480 V100" />
+    <path d="M40 90 H100 V150 H180" />
+  </g>
+  <g fill="#d9ab5c">
+    <circle cx="160" cy="520" r="4"/>
+    <circle cx="260" cy="470" r="4"/>
+    <circle cx="120" cy="460" r="3.5"/>
+    <circle cx="210" cy="420" r="3.5"/>
+    <circle cx="600" cy="180" r="4"/>
+    <circle cx="480" cy="60" r="3.5"/>
+    <circle cx="180" cy="90" r="3.5"/>
+    <circle cx="40" cy="90" r="3"/>
+  </g>
+
+  <!-- energy pulse ring -->
+  <circle cx="320" cy="200" r="10" fill="none" stroke="#d9ab5c" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="320" cy="200" r="3" fill="#d9ab5c"/>
+</svg>
