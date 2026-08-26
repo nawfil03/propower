@@ -498,6 +498,55 @@ section{position:relative;}
 .cap-list li svg{transition:transform .3s var(--ease);}
 .cap-list li:hover svg{transform:scale(1.25);}
 
+/* ==========================================================================
+   Cinematic layer — inertia scroll, split-text reveals, parallax, cursor
+   ========================================================================== */
+
+/* Split-text cinematic headline reveal */
+.split-word{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:0.08em;margin-bottom:-0.08em;}
+.split-word > span{
+  display:inline-block;transform:translateY(112%);
+  transition:transform .9s var(--ease);transition-delay:var(--w-delay,0ms);
+}
+.split-in-view .split-word > span{transform:translateY(0);}
+
+/* Scroll parallax depth */
+[data-parallax]{will-change:transform;}
+
+/* Custom cursor */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:1300;pointer-events:none;
+  border-radius:50%;transform:translate(-50%,-50%);
+}
+.cursor-dot{width:6px;height:6px;background:var(--gold-500);opacity:0;transition:opacity .3s;}
+.cursor-ring{
+  width:38px;height:38px;border:1.4px solid rgba(217,171,92,.55);opacity:0;
+  transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),border-color .3s;
+}
+.cursor-active .cursor-dot,.cursor-active .cursor-ring{opacity:1;}
+.cursor-hover .cursor-ring{width:60px;height:60px;border-color:var(--gold-500);background:rgba(217,171,92,.08);}
+.has-custom-cursor,.has-custom-cursor a,.has-custom-cursor button{cursor:none;}
+
+/* Intro preloader (first visit only) */
+.preloader{
+  position:fixed;inset:0;z-index:2000;background:var(--navy-950);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s var(--ease),visibility .6s var(--ease);
+}
+.preloader svg{width:64px;height:64px;}
+.preloader .p-bolt{
+  fill:none;stroke:var(--gold-400);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:130;stroke-dashoffset:130;animation:drawBolt 1s var(--ease) forwards .15s;
+}
+@keyframes drawBolt{to{stroke-dashoffset:0;}}
+.preloader.is-done{opacity:0;visibility:hidden;}
+
+/* Soft curtain overlap between a dark hero and the section beneath it */
+.hero + section,.page-hero + section{
+  position:relative;z-index:2;border-radius:36px 36px 0 0;
+  margin-top:-36px;box-shadow:0 -40px 70px -30px rgba(6,11,22,.28);
+}
+
 /* Reduced motion: switch off decorative/large motion, keep simple fades */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
@@ -506,6 +555,9 @@ section{position:relative;}
   .card{transform:none !important;}
   .btn-primary::after{display:none;}
   [data-reveal]{transition-duration:.2s;transform:none !important;}
+  .split-word > span{transition-duration:.2s;}
+  .cursor-dot,.cursor-ring{display:none !important;}
+  [data-parallax]{transform:none !important;}
 }
 
 /* Mobile nav drawer */

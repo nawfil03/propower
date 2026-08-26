@@ -15,6 +15,10 @@
 <body>
 <div class="scroll-progress" aria-hidden="true"></div>
 <div class="spotlight" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+<div class="preloader" id="preloader" aria-hidden="true"><svg viewBox="0 0 64 64"><path class="p-bolt" d="M35 10 L18 34 H29 L26 54 L47 26 H35 L38 10 Z"/></svg></div>
+<script>try{if(sessionStorage.getItem("pp_intro_shown")){document.getElementById("preloader").classList.add("is-done");}}catch(e){}</script>
 <a href="#main" class="skip-link">Skip to content</a>
 
 <header class="site-header">
@@ -53,9 +57,9 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-glow" aria-hidden="true"></div>
-    <img src="assets/img/hero-circuit.svg" alt="" class="hero-circuit" aria-hidden="true">
+    <div class="hero-grid" aria-hidden="true" data-parallax="0.12"></div>
+    <div class="hero-glow" aria-hidden="true" data-parallax="0.08"></div>
+    <img src="assets/img/hero-circuit.svg" alt="" class="hero-circuit" aria-hidden="true" data-parallax="-0.18">
     <div class="container">
       <div class="hero-copy" data-reveal>
         <span class="eyebrow">Electrical Engineering &amp; Contracting · UAE &amp; GCC</span>

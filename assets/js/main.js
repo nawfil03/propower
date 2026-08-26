@@ -164,6 +164,103 @@
     }
   }
 
+  /* Intro preloader — plays once per browser session, skipped under
+     reduced motion (an inline script in <head> already hides it instantly
+     on repeat page views within the session, before this file even loads). */
+  var preloader = document.getElementById("preloader");
+  if (preloader && !preloader.classList.contains("is-done")) {
+    var finishPreloader = function () {
+      preloader.classList.add("is-done");
+      try { sessionStorage.setItem("pp_intro_shown", "1"); } catch (e) {}
+    };
+    if (reduceMotion) {
+      finishPreloader();
+    } else {
+      window.setTimeout(finishPreloader, 900);
+    }
+  }
+
+  /* Split-text cinematic headline reveal */
+  function splitWords(el) {
+    if (el.dataset.split) return;
+    el.dataset.split = "1";
+    var words = el.textContent.trim().split(/\s+/);
+    el.innerHTML = words.map(function (w, i) {
+      return '<span class="split-word"><span style="--w-delay:' + (i * 45) + 'ms">' + w + "</span></span>";
+    }).join(" ");
+  }
+  if (!reduceMotion) {
+    document.querySelectorAll(".page-hero h1, .section-head h2, .cta-banner h2").forEach(splitWords);
+
+    /* Inner-page hero headline: cinematic entrance shortly after load */
+    document.querySelectorAll(".page-hero h1").forEach(function (el) {
+      window.setTimeout(function () { el.classList.add("split-in-view"); }, 500);
+    });
+
+    /* Below-the-fold headings: reveal as they scroll into view */
+    var splitScrollTargets = document.querySelectorAll(".section-head h2, .cta-banner h2");
+    if ("IntersectionObserver" in window && splitScrollTargets.length) {
+      var splitIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("split-in-view");
+            splitIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2, rootMargin: "0px 0px -10% 0px" });
+      splitScrollTargets.forEach(function (el) { splitIo.observe(el); });
+      window.setTimeout(function () {
+        splitScrollTargets.forEach(function (el) { el.classList.add("split-in-view"); });
+      }, 2600);
+    } else {
+      splitScrollTargets.forEach(function (el) { el.classList.add("split-in-view"); });
+    }
+  }
+
+  /* Custom cursor (fine-pointer, motion-safe only) */
+  var cursorDot = document.querySelector(".cursor-dot");
+  var cursorRing = document.querySelector(".cursor-ring");
+  if (cursorDot && cursorRing && finePointer && !reduceMotion) {
+    document.documentElement.classList.add("has-custom-cursor");
+    var mouseX = -100, mouseY = -100, ringX = -100, ringY = -100;
+    document.addEventListener("mousemove", function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.left = mouseX + "px";
+      cursorDot.style.top = mouseY + "px";
+      document.documentElement.classList.add("cursor-active");
+    }, { passive: true });
+    document.addEventListener("mouseleave", function () {
+      document.documentElement.classList.remove("cursor-active");
+    });
+    (function ringLoop() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      cursorRing.style.left = ringX + "px";
+      cursorRing.style.top = ringY + "px";
+      window.requestAnimationFrame(ringLoop);
+    })();
+    document.querySelectorAll("a, button, .card").forEach(function (el) {
+      el.addEventListener("mouseenter", function () { document.documentElement.classList.add("cursor-hover"); });
+      el.addEventListener("mouseleave", function () { document.documentElement.classList.remove("cursor-hover"); });
+    });
+  }
+
+  /* Scroll-linked parallax on decorative hero art */
+  var parallaxEls = document.querySelectorAll("[data-parallax]");
+  function onParallax() {
+    if (!parallaxEls.length) return;
+    var scrollY = window.scrollY;
+    parallaxEls.forEach(function (el) {
+      var speed = parseFloat(el.getAttribute("data-parallax")) || 0.1;
+      el.style.transform = "translate3d(0," + (scrollY * speed).toFixed(1) + "px,0)";
+    });
+  }
+  if (parallaxEls.length && !reduceMotion) {
+    document.addEventListener("scroll", onParallax, { passive: true });
+    onParallax();
+  }
+
   /* Contact form (client-side only — no backend wired up yet) */
   var form = document.getElementById("contact-form");
   if (form) {
