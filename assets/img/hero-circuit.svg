@@ -16,11 +16,11 @@
 
   <!-- Circuit nodes and traces -->
   <g stroke="#e7c789" stroke-width="1.2" opacity="0.75">
-    <path d="M40 520 H160 M160 520 V470 M160 470 H260" />
-    <path d="M40 460 H120 M120 460 V420 H210" />
-    <path d="M520 120 H600 M600 120 V180 H560" />
-    <path d="M540 60 H480 V100" />
-    <path d="M40 90 H100 V150 H180" />
+    <path id="trace1" d="M40 520 H160 V470 H260" />
+    <path id="trace2" d="M40 460 H120 V420 H210" />
+    <path id="trace3" d="M520 120 H600 V180 H560" />
+    <path id="trace4" d="M540 60 H480 V100" />
+    <path id="trace5" d="M40 90 H100 V150 H180" />
   </g>
   <g fill="#d9ab5c">
     <circle cx="160" cy="520" r="4"/>
@@ -31,9 +31,56 @@
     <circle cx="480" cy="60" r="3.5"/>
     <circle cx="180" cy="90" r="3.5"/>
     <circle cx="40" cy="90" r="3"/>
+
+    <!-- pulsing node glow -->
+    <circle cx="260" cy="470" r="4">
+      <animate attributeName="r" values="4;7;4" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.25;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="180" r="4">
+      <animate attributeName="r" values="4;7;4" dur="3.1s" begin="0.6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.25;1" dur="3.1s" begin="0.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="90" r="3.5">
+      <animate attributeName="r" values="3.5;6.5;3.5" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.25;1" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
+    </circle>
   </g>
 
-  <!-- energy pulse ring -->
-  <circle cx="320" cy="200" r="10" fill="none" stroke="#d9ab5c" stroke-width="1.5" opacity="0.8"/>
-  <circle cx="320" cy="200" r="3" fill="#d9ab5c"/>
+  <!-- traveling current pulses along the circuit traces -->
+  <g fill="#f4d9a5">
+    <circle r="3.2">
+      <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#trace1"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.8">
+      <animateMotion dur="3.1s" begin="0.9s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#trace2"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="3.1s" begin="0.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="3">
+      <animateMotion dur="2.7s" begin="0.3s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#trace3"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="2.7s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
+    <circle r="2.6">
+      <animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#trace5"/>
+      </animateMotion>
+      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="2.2s" begin="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- energy pulse ring at the tower head -->
+  <circle cx="320" cy="200" r="10" fill="none" stroke="#d9ab5c" stroke-width="1.5" opacity="0.8">
+    <animate attributeName="r" values="8;22;8" dur="3.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0;0.8" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="320" cy="200" r="3" fill="#d9ab5c">
+    <animate attributeName="opacity" values="1;0.5;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
 </svg>
