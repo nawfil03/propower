@@ -4,6 +4,7 @@ import useReducedMotion from '../hooks/useReducedMotion';
 
 const GOLD = '#c4903f';
 const GOLD_LIGHT = '#e7c789';
+const ELECTRIC = '#5fd4ff';
 
 // Grid nodes rendered as a single Points draw call — represents a distributed power network.
 function GridParticles({ reduced, count = 420, radius = 4 }) {
@@ -79,8 +80,8 @@ function EnergyCore({ reduced }) {
         <meshBasicMaterial color={GOLD} transparent opacity={0.5} />
       </mesh>
       <mesh ref={ring2} rotation={[Math.PI / 3.1, Math.PI / 5, 0]}>
-        <torusGeometry args={[2.55, 0.005, 8, 96]} />
-        <meshBasicMaterial color={GOLD_LIGHT} transparent opacity={0.32} />
+        <torusGeometry args={[2.55, 0.006, 8, 96]} />
+        <meshBasicMaterial color={ELECTRIC} transparent opacity={0.4} />
       </mesh>
       <mesh ref={ring3} rotation={[0, Math.PI / 2.5, Math.PI / 6]}>
         <torusGeometry args={[3.0, 0.004, 8, 96]} />
@@ -131,7 +132,7 @@ export default function Hero3D({ className = '' }) {
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[5, 4, 5]} intensity={65} color={GOLD_LIGHT} />
-        <pointLight position={[-5, -3, -4]} intensity={18} color="#ffffff" />
+        <pointLight position={[-5, -3, -4]} intensity={20} color={ELECTRIC} />
         <Suspense fallback={null}>
           <Rig reduced={reduced} />
         </Suspense>

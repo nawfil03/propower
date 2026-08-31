@@ -1,11 +1,23 @@
 import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import * as THREE from 'three';
 import useReducedMotion from '../hooks/useReducedMotion';
 import RevealOnScroll from './RevealOnScroll';
 
 const GOLD = '#c4903f';
 const GOLD_LIGHT = '#e7c789';
+const ELECTRIC = '#5fd4ff';
+
+// Shared grid geometry — four "ring bus" stations, three nodes each, the camera flies through.
+const RING_DEPTHS = [-4, -12, -20, -28];
+const RING_RADIUS = 4.3;
+const HUB_Z = -34;
+
+function nodePosition(i, j) {
+  const angle = (j / 3) * Math.PI * 2 + i * 0.6;
+  return [Math.cos(angle) * RING_RADIUS, Math.sin(angle) * RING_RADIUS, RING_DEPTHS[i]];
+}
 
 const CAPTIONS = [
   {
@@ -28,17 +40,17 @@ const CAPTIONS = [
   },
 ];
 
-// A corridor of drifting nodes the camera flies through — represents the distributed grid.
-function DataCorridor({ count = 700 }) {
+// A dense corridor of drifting points the camera flies through — the distributed grid.
+function DataCorridor({ count = 1100 }) {
   const ref = useRef(null);
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const r = 3.2 + Math.random() * 3.6;
+      const r = 1.6 + Math.random() * 2.4;
       arr[i * 3] = Math.cos(angle) * r;
       arr[i * 3 + 1] = Math.sin(angle) * r;
-      arr[i * 3 + 2] = -Math.random() * 42;
+      arr[i * 3 + 2] = -Math.random() * 36;
     }
     return arr;
   }, [count]);
@@ -53,7 +65,7 @@ function DataCorridor({ count = 700 }) {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial size={0.045} color={GOLD_LIGHT} transparent opacity={0.5} sizeAttenuation depthWrite={false} />
+      <pointsMaterial size={0.05} color={GOLD_LIGHT} transparent opacity={0.55} sizeAttenuation depthWrite={false} />
     </points>
   );
 }
@@ -62,12 +74,9 @@ function DataCorridor({ count = 700 }) {
 function GridNodes() {
   const nodes = useMemo(() => {
     const arr = [];
-    const depths = [-8, -16, -24, -32];
-    depths.forEach((z, i) => {
+    RING_DEPTHS.forEach((_, i) => {
       for (let j = 0; j < 3; j++) {
-        const angle = (j / 3) * Math.PI * 2 + i * 0.6;
-        const r = 4.3;
-        arr.push({ x: Math.cos(angle) * r, y: Math.sin(angle) * r, z, key: `${i}-${j}` });
+        arr.push({ pos: nodePosition(i, j), key: `${i}-${j}` });
       }
     });
     return arr;
@@ -76,34 +85,109 @@ function GridNodes() {
   return (
     <group>
       {nodes.map((n) => (
-        <mesh key={n.key} position={[n.x, n.y, n.z]}>
-          <icosahedronGeometry args={[0.4, 0]} />
-          <meshStandardMaterial color="#141414" emissive={GOLD} emissiveIntensity={0.6} metalness={0.7} roughness={0.3} flatShading />
+        <mesh key={n.key} position={n.pos}>
+          <icosahedronGeometry args={[0.42, 0]} />
+          <meshStandardMaterial color="#141414" emissive={GOLD} emissiveIntensity={0.65} metalness={0.7} roughness={0.3} flatShading />
         </mesh>
       ))}
     </group>
   );
 }
 
-// The destination — an energy core that resolves into view as the journey completes.
+// The literal wiring — ring-bus triangles at each station, trunk lines running between stations.
+function GridLattice() {
+  const geometry = useMemo(() => {
+    const segments = [];
+    RING_DEPTHS.forEach((_, i) => {
+      for (let j = 0; j < 3; j++) {
+        segments.push(nodePosition(i, j), nodePosition(i, (j + 1) % 3));
+      }
+      if (i < RING_DEPTHS.length - 1) {
+        for (let j = 0; j < 3; j++) {
+          segments.push(nodePosition(i, j), nodePosition(i + 1, j));
+        }
+      }
+    });
+    const positions = new Float32Array(segments.length * 3);
+    segments.forEach((p, idx) => {
+      positions[idx * 3] = p[0];
+      positions[idx * 3 + 1] = p[1];
+      positions[idx * 3 + 2] = p[2];
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geo;
+  }, []);
+
+  return (
+    <lineSegments geometry={geometry}>
+      <lineBasicMaterial color={ELECTRIC} transparent opacity={0.4} />
+    </lineSegments>
+  );
+}
+
+// Small emissive pulses that travel the trunk lines — current flowing through the network.
+function EnergyPulses() {
+  const trunks = useMemo(() => {
+    const arr = [];
+    for (let i = 0; i < RING_DEPTHS.length - 1; i++) {
+      for (let j = 0; j < 3; j++) {
+        arr.push({
+          start: new THREE.Vector3(...nodePosition(i, j)),
+          end: new THREE.Vector3(...nodePosition(i + 1, j)),
+          phase: Math.random(),
+        });
+      }
+    }
+    return arr;
+  }, []);
+
+  const refs = useRef([]);
+
+  useFrame((state) => {
+    const t = state.clock.getElapsedTime();
+    trunks.forEach((trunk, idx) => {
+      const mesh = refs.current[idx];
+      if (!mesh) return;
+      const progress = (t * 0.35 + trunk.phase) % 1;
+      mesh.position.lerpVectors(trunk.start, trunk.end, progress);
+    });
+  });
+
+  return (
+    <group>
+      {trunks.map((_, idx) => (
+        <mesh key={idx} ref={(el) => { refs.current[idx] = el; }}>
+          <sphereGeometry args={[0.075, 8, 8]} />
+          <meshBasicMaterial color={ELECTRIC} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// The destination — an energy core with an orbiting ring bus that resolves into view.
 function DestinationHub({ progressRef, reduced }) {
   const coreRef = useRef(null);
   const wireRef = useRef(null);
+  const ringRef = useRef(null);
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     const p = progressRef.current;
     if (!reduced) {
       if (coreRef.current) coreRef.current.rotation.y += delta * 0.2;
       if (wireRef.current) wireRef.current.rotation.y -= delta * 0.1;
+      if (ringRef.current) ringRef.current.rotation.z = state.clock.getElapsedTime() * 0.15;
     }
     const reveal = Math.min(Math.max((p - 0.55) / 0.4, 0), 1);
     const scale = 0.4 + reveal * 1.15;
     if (coreRef.current) coreRef.current.scale.setScalar(scale);
     if (wireRef.current) wireRef.current.scale.setScalar(scale * 1.35);
+    if (ringRef.current) ringRef.current.scale.setScalar(scale * 1.8);
   });
 
   return (
-    <group position={[0, 0, -38]}>
+    <group position={[0, 0, HUB_Z]}>
       <mesh ref={coreRef}>
         <icosahedronGeometry args={[1.3, 2]} />
         <meshStandardMaterial color="#141414" emissive={GOLD} emissiveIntensity={0.6} metalness={0.75} roughness={0.2} flatShading />
@@ -111,6 +195,10 @@ function DestinationHub({ progressRef, reduced }) {
       <mesh ref={wireRef}>
         <icosahedronGeometry args={[1.3, 1]} />
         <meshBasicMaterial color={GOLD_LIGHT} wireframe transparent opacity={0.3} />
+      </mesh>
+      <mesh ref={ringRef} rotation={[Math.PI / 2.3, 0, 0]}>
+        <torusGeometry args={[2, 0.012, 8, 96]} />
+        <meshBasicMaterial color={ELECTRIC} transparent opacity={0.55} />
       </mesh>
     </group>
   );
@@ -120,7 +208,8 @@ function DestinationHub({ progressRef, reduced }) {
 function CameraRig({ progressRef }) {
   useFrame((state) => {
     const p = progressRef.current;
-    const targetZ = 6 - p * 44;
+    // Stop well short of the destination hub (HUB_Z) so the camera never flies into the mesh.
+    const targetZ = Math.max(6 - p * 40, HUB_Z + 6);
     const targetX = Math.sin(p * Math.PI * 2) * 0.6;
     const targetY = Math.cos(p * Math.PI * 1.4) * 0.3;
     state.camera.position.z += (targetZ - state.camera.position.z) * 0.08;
@@ -136,11 +225,14 @@ function Scene({ progressRef, reduced }) {
     <>
       <ambientLight intensity={0.4} />
       <pointLight position={[0, 0, 4]} intensity={40} color={GOLD_LIGHT} />
-      <pointLight position={[6, 4, -20]} intensity={30} color="#ffffff" />
-      <fog attach="fog" args={['#050505', 8, 46]} />
+      <pointLight position={[6, 4, -20]} intensity={26} color={ELECTRIC} />
+      <fog attach="fog" args={['#050505', 8, 40]} />
       <CameraRig progressRef={progressRef} />
+      <gridHelper args={[100, 30, ELECTRIC, '#141414']} position={[0, -9, -18]} />
       <DataCorridor />
+      <GridLattice />
       <GridNodes />
+      <EnergyPulses />
       <DestinationHub progressRef={progressRef} reduced={reduced} />
     </>
   );
