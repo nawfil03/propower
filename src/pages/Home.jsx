@@ -1,47 +1,84 @@
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { lazy, Suspense } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import {
+  Lightning, Buildings, PlugsConnected, Gauge, Broadcast, FireSimple,
+  HouseLine, Wrench, Path, ShieldCheck, GlobeHemisphereEast, HardHat,
+} from '@phosphor-icons/react';
 
 import RevealOnScroll from '../components/RevealOnScroll';
 import MagneticButton from '../components/MagneticButton';
 import CTA from '../components/CTA';
 
+const Hero3D = lazy(() => import('../components/Hero3D'));
+
 // ── 1. Hero ──
 function Hero() {
   return (
-    <div className="section" style={{ padding: '22vh 32px 12vh', textAlign: 'center' }}>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <h1 style={{ fontSize: 'clamp(3.5rem, 11vw, 11rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 0.9, color: 'var(--text-main)' }}>
-          ENGINEERING<br/>
-          <span style={{ color: 'var(--accent-gold)' }}>CRITICAL</span><br/>
-          POWER
-        </h1>
-      </motion.div>
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        style={{ fontSize: '1.35rem', color: 'var(--text-secondary)', maxWidth: '700px', margin: '48px auto 0', lineHeight: 1.6 }}
-      >
-        Delivering mission-critical electrical infrastructure across the UAE and GCC since inception.
-      </motion.p>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        style={{ marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}
-      >
-        <Link to="/services" className="btn btn-primary" style={{ fontSize: '1rem' }}>
-          Our Capabilities <span className="btn-arrow">→</span>
-        </Link>
-        <Link to="/contact" className="btn btn-ghost" style={{ fontSize: '1rem' }}>
-          Start a Project
-        </Link>
-      </motion.div>
+    <div className="section" style={{ padding: '20vh 32px 10vh' }}>
+      <div className="container hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: '64px', alignItems: 'center' }}>
+        <div>
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="eyebrow"
+          >
+            UAE &amp; GCC · LV / MV / HV Electrical EPC
+          </motion.span>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h1 style={{ fontSize: 'clamp(3rem, 6.2vw, 6.5rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 0.94, color: 'var(--text-main)', marginTop: '20px' }}>
+              ENGINEERING<br/>
+              <span style={{ color: 'var(--accent-gold)' }}>CRITICAL</span><br/>
+              POWER
+            </h1>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '560px', margin: '28px 0 0', lineHeight: 1.6 }}
+          >
+            A single-source partner for electrical contracting, power transmission &amp; distribution, substations, testing &amp; commissioning, and operation &amp; maintenance — trusted across utility, EPC, industrial and data center projects in the UAE and wider GCC.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            style={{ marginTop: '40px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}
+          >
+            <Link to="/services" className="btn btn-primary" style={{ fontSize: '1rem' }}>
+              Our Capabilities <span className="btn-arrow">→</span>
+            </Link>
+            <Link to="/contact" className="btn btn-ghost" style={{ fontSize: '1rem' }}>
+              Start a Project
+            </Link>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-3d-frame"
+        >
+          <div className="hero-3d-grid-overlay" />
+          <Suspense fallback={null}>
+            <Hero3D />
+          </Suspense>
+          <div className="hero-3d-badge">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span className="dot" />
+              <span>Grid Systems, Modeled Live</span>
+            </div>
+            <span style={{ color: 'var(--accent-gold-light)' }}>Up to 220kV</span>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }
@@ -63,24 +100,25 @@ function ShowcaseImage() {
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.4) 100%)' }} />
-        <div style={{ position: 'absolute', bottom: '40px', left: '40px', right: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div className="showcase-overlay" style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
           <div>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Featured Project</span>
-            <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px' }}>400kV Substation — Abu Dhabi</h3>
+            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Core Discipline</span>
+            <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px' }}>Substation &amp; Grid Infrastructure, up to 220kV</h3>
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
-            {['DEWA', 'ADDC', 'SEWA'].map(badge => (
-              <span key={badge} style={{ 
-                padding: '8px 16px', 
-                background: 'rgba(255,255,255,0.15)', 
+          <div className="showcase-badges" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            {['DEWA', 'SEWA', 'EtihadWE'].map(badge => (
+              <span key={badge} style={{
+                padding: '7px 14px',
+                background: 'rgba(255,255,255,0.15)',
                 backdropFilter: 'blur(10px)',
-                borderRadius: '999px', 
-                color: '#fff', 
-                fontSize: '12px', 
+                borderRadius: '999px',
+                color: '#fff',
+                fontSize: '11px',
                 fontWeight: 600,
+                whiteSpace: 'nowrap',
                 border: '1px solid rgba(255,255,255,0.2)'
               }}>
-                {badge} Approved
+                {badge} Reference
               </span>
             ))}
           </div>
@@ -106,9 +144,9 @@ function VisionText() {
 // ── 4. Core Disciplines — Dark Contrast Block ──
 function CoreDisciplines() {
   const items = [
-    { title: 'Substations up to 400kV', img: '/assets/img/hero-3d.jpg', span: 'span 2', rowSpan: 'span 2' },
-    { title: 'Transmission & Distribution', img: '/assets/img/hero-infrastructure.png', span: 'span 2', rowSpan: 'span 1' },
-    { title: 'Data Center Infrastructure', img: '/assets/img/services-datacenter.png', span: 'span 1', rowSpan: 'span 1' },
+    { title: 'Substations & Grid up to 220kV', img: '/assets/img/hero-3d.jpg', span: 'span 2', rowSpan: 'span 2' },
+    { title: 'Power Transmission & Distribution', img: '/assets/img/hero-infrastructure.png', span: 'span 2', rowSpan: 'span 1' },
+    { title: 'Data Center Critical Power', img: '/assets/img/services-datacenter.png', span: 'span 1', rowSpan: 'span 1' },
     { title: 'Testing & Commissioning', img: '/assets/img/hero-substation.png', span: 'span 1', rowSpan: 'span 1' },
   ];
 
@@ -152,6 +190,51 @@ function CoreDisciplines() {
               View All Capabilities
             </Link>
           </MagneticButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── 4b. Full-Spectrum Solution Areas ──
+function SolutionAreas() {
+  const areas = [
+    { icon: PlugsConnected, title: 'Electrical Engineering & Contracting', desc: 'LV/MV electrical systems, installations, power cabling, panels & infrastructure.' },
+    { icon: Lightning, title: 'Power, Utility & Energy', desc: 'Transmission & distribution, substations & transformers, protection & control, solar.' },
+    { icon: Buildings, title: 'Data Center Solutions', desc: 'Critical power systems, UPS & battery systems, distribution, monitoring & commissioning.' },
+    { icon: Gauge, title: 'Industrial Automation', desc: 'Instrumentation, automation & control, PLC / SCADA / HMI, monitoring & measurement.' },
+    { icon: Broadcast, title: 'ELV & Communication', desc: 'Structured cabling, communication networks, CCTV, access control & ELV systems.' },
+    { icon: FireSimple, title: 'Fire & Life Safety', desc: 'Fire alarm & detection systems, emergency lighting, life safety solutions.' },
+    { icon: HouseLine, title: 'Residential & Commercial', desc: 'Electrical systems, lighting, power distribution, ELV & building solutions.' },
+    { icon: Wrench, title: 'Retrofit, Testing & Maintenance', desc: 'System upgradation, modification & retrofit, testing & commissioning, AMC.' },
+    { icon: Path, title: 'Infrastructure & Specialized', desc: 'Infrastructure projects, project support & execution, specialized engineering.' },
+  ];
+
+  return (
+    <div className="section" style={{ background: 'var(--bg-white)', padding: '140px 0' }}>
+      <div className="container">
+        <RevealOnScroll>
+          <span className="eyebrow">Complete Portfolio</span>
+          <h2 style={{ maxWidth: '760px', marginBottom: '20px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>
+            Nine Solution Areas, One Accountable Partner
+          </h2>
+          <p style={{ maxWidth: '640px', fontSize: '1.15rem', color: 'var(--text-secondary)', marginBottom: '64px' }}>
+            From supply and installation through testing, commissioning and maintenance — every discipline under a single scope of responsibility.
+          </p>
+        </RevealOnScroll>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'var(--border-subtle)', borderRadius: '24px', overflow: 'hidden' }}>
+          {areas.map((a, i) => (
+            <RevealOnScroll key={a.title} delay={(i % 3) * 0.08}>
+              <div style={{ background: 'var(--bg-white)', padding: '40px 32px', height: '100%', transition: 'background 0.3s ease' }}>
+                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                  <a.icon size={26} weight="duotone" color="var(--accent-gold)" />
+                </div>
+                <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', letterSpacing: '-0.01em' }}>{a.title}</h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
+              </div>
+            </RevealOnScroll>
+          ))}
         </div>
       </div>
     </div>
@@ -204,10 +287,56 @@ function KeyDifferentiators() {
   );
 }
 
+// ── 5b. Who We Serve ──
+function WhoWeServe() {
+  const segments = [
+    {
+      icon: GlobeHemisphereEast,
+      title: 'Utilities & Government',
+      desc: 'Electricity and utility authorities requiring transmission & distribution, substations, testing, commissioning, retrofit and maintenance.',
+    },
+    {
+      icon: HardHat,
+      title: 'EPC Contractors & Infrastructure',
+      desc: 'Engineering, procurement and construction firms requiring electrical contracting, cabling, installation, protection & control and execution support.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Industrial, Commercial & Critical Facilities',
+      desc: 'Industrial plants, commercial developments, data centers, airports and district cooling requiring reliable, resilient electrical systems.',
+    },
+  ];
+
+  return (
+    <div className="section" style={{ padding: '140px 0', background: '#0a0a0a', color: '#fff' }}>
+      <div className="container">
+        <RevealOnScroll>
+          <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Who We Serve</span>
+          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#fff' }}>
+            Built for Mission-Critical Clients
+          </h2>
+        </RevealOnScroll>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+          {segments.map((s, i) => (
+            <RevealOnScroll key={s.title} delay={i * 0.12}>
+              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '44px 36px', height: '100%' }}>
+                <s.icon size={32} weight="duotone" color="var(--accent-gold-light)" />
+                <h3 style={{ color: '#fff', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
+              </div>
+            </RevealOnScroll>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── 6. Stats Strip ──
 function StatsStrip() {
   const stats = [
-    { num: '132', unit: 'kV', label: 'Substation Capacity' },
+    { num: '220', unit: 'kV', label: 'Grid Capability' },
     { num: '50+', unit: '', label: 'Major Projects' },
     { num: '3', unit: '', label: 'ISO Certifications' },
     { num: '5+', unit: '', label: 'Utility Approvals' },
@@ -233,12 +362,12 @@ function StatsStrip() {
 
 // ── 7. Approvals Row ──
 function ApprovalsRow() {
-  const approvals = ['DEWA', 'SEWA', 'FEWA', 'ADDC', 'AADC', 'ISO 9001', 'ISO 14001', 'ISO 45001'];
+  const approvals = ['DEWA', 'SEWA', 'EtihadWE', 'ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018'];
   return (
     <div style={{ padding: '60px 0', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', marginRight: '16px' }}>Approved by</span>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', marginRight: '16px' }}>Project References &amp; Certifications</span>
           {approvals.map(a => (
             <span key={a} style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)', padding: '8px 20px', background: 'var(--bg-secondary)', borderRadius: '999px' }}>
               {a}
@@ -260,7 +389,9 @@ export default function Home() {
       <VisionText />
       <ApprovalsRow />
       <CoreDisciplines />
+      <SolutionAreas />
       <KeyDifferentiators />
+      <WhoWeServe />
       <StatsStrip />
       <CTA />
     </main>
