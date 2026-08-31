@@ -9,12 +9,12 @@ import {
 import RevealOnScroll from '../components/RevealOnScroll';
 import MagneticButton from '../components/MagneticButton';
 import GlassCard from '../components/GlassCard';
-import LiveGridPulse from '../components/LiveGridPulse';
 import CountUp from '../components/CountUp';
 import CTA from '../components/CTA';
 
 const Hero3D = lazy(() => import('../components/Hero3D'));
 const ScrollJourney3D = lazy(() => import('../components/ScrollJourney3D'));
+const LiveGridPulse = lazy(() => import('../components/LiveGridPulse'));
 
 // ── 1. Hero ──
 function Hero() {
@@ -258,7 +258,7 @@ function KeyDifferentiators() {
     {
       num: '02',
       title: 'Utility & Grid Integrity',
-      desc: 'Our engineering teams possess extensive reference qualifications and direct project experience aligned with DEWA, SEWA, ADDC, and regional electrical grid regulations.'
+      desc: 'Our engineering teams possess extensive reference qualifications and direct project experience aligned with DEWA, SEWA, EtihadWE, and regional electrical grid regulations.'
     },
     {
       num: '03',
@@ -404,7 +404,9 @@ export default function Home() {
         <ScrollJourney3D />
       </Suspense>
       <SolutionAreas />
-      <LiveGridPulse />
+      <Suspense fallback={null}>
+        <LiveGridPulse />
+      </Suspense>
       <KeyDifferentiators />
       <WhoWeServe />
       <StatsStrip />

@@ -18,7 +18,9 @@ export default function Footer() {
             justifyContent: 'center',
             padding: '0 20px'
           }}>
-            <img src="/assets/img/logo-final.svg" alt="ProPower Logo" style={{ width: '100%', maxWidth: '240px', height: 'auto', opacity: 0.9 }} />
+            <span className="logo-chip" style={{ padding: '14px 28px' }}>
+              <img src="/assets/img/logo-final.svg" alt="ProPower Logo" style={{ width: '100%', maxWidth: '220px', height: 'auto' }} />
+            </span>
           </div>
         </RevealOnScroll>
 

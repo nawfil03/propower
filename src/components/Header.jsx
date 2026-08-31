@@ -56,11 +56,13 @@ export default function Header() {
           
           {/* Logo — Left */}
           <Link to="/" className="logo" aria-label="ProPower home">
-            <img 
-              src="/assets/img/logo-final.svg" 
-              alt="ProPower Logo" 
-              style={{ height: isScrolled ? '60px' : '76px', width: 'auto', transition: 'height 0.4s var(--ease-apple)' }}
-            />
+            <span className="logo-chip">
+              <img
+                src="/assets/img/logo-final.svg"
+                alt="ProPower Logo"
+                style={{ height: isScrolled ? '48px' : '60px', width: 'auto', transition: 'height 0.4s var(--ease-apple)' }}
+              />
+            </span>
           </Link>
 
           {/* Navigation — Center */}
