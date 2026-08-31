@@ -1,16 +1,18 @@
 import RevealOnScroll from '../components/RevealOnScroll';
+import SectionHero from '../components/SectionHero';
 
 export default function Contact() {
   return (
-    <main id="main" style={{ paddingTop: '160px', paddingBottom: '120px' }}>
-      <div className="container">
-        
-        <RevealOnScroll>
-          <h1 style={{ fontSize: 'clamp(3rem, 10vw, 10rem)', fontWeight: 700, letterSpacing: '-0.06em', lineHeight: 0.9, marginBottom: '80px' }}>
-            START A<br/>PROJECT
-          </h1>
-        </RevealOnScroll>
+    <main id="main" style={{ paddingBottom: '120px' }}>
+      <SectionHero
+        eyebrow="Get In Touch"
+        title={'START A\nPROJECT'}
+        lead="Tell us about your substation, transmission, data center or maintenance requirement — our engineering team responds directly, no call center."
+        badgeLabel="Direct Engineering Contact"
+        badgeValue="UAE Based"
+      />
 
+      <div className="container">
         <RevealOnScroll delay={0.2}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '80px', borderTop: '2px solid var(--text-main)', paddingTop: '60px' }}>
             

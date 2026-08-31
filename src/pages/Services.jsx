@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 
 import RevealOnScroll from '../components/RevealOnScroll';
+import SectionHero from '../components/SectionHero';
 import CTA from '../components/CTA';
 
 const divisions = [
@@ -149,18 +150,13 @@ export default function Services() {
   return (
     <main id="main">
 
-      {/* Clean White Header */}
-      <div className="section container" style={{ paddingTop: '20vh', paddingBottom: '8vh' }}>
-        <RevealOnScroll>
-          <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Capabilities</span>
-          <h1 style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: 'var(--text-main)', marginTop: '16px' }}>
-            COMPREHENSIVE<br/>EPC SOLUTIONS
-          </h1>
-          <p style={{ maxWidth: '680px', fontSize: '1.25rem', color: 'var(--text-secondary)', marginTop: '32px', lineHeight: 1.6 }}>
-            Nine integrated solution areas covering electrical contracting, power &amp; utility infrastructure, data centers, automation, ELV, fire &amp; life safety, and retrofit &amp; maintenance — supply through commissioning, under one accountable scope.
-          </p>
-        </RevealOnScroll>
-      </div>
+      <SectionHero
+        eyebrow="Capabilities"
+        title={'COMPREHENSIVE\nEPC SOLUTIONS'}
+        lead="Nine integrated solution areas covering electrical contracting, power & utility infrastructure, data centers, automation, ELV, fire & life safety, and retrofit & maintenance — supply through commissioning, under one accountable scope."
+        badgeLabel="Solutions Portfolio"
+        badgeValue="9 Disciplines"
+      />
 
       <div className="container" style={{ paddingBottom: '80px' }}>
         <DesignerList />

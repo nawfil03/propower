@@ -8,13 +8,15 @@ export default function AnimatedText({
   delay = 0,
   staggerChildren = 0.035,
   once = true,
+  align = 'left',
   style = {},
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: 0.3 });
   const Tag = as;
 
-  const words = text.split(' ');
+  // Supports explicit line breaks via '\n' so callers can force multi-line headlines.
+  const lines = text.split('\n');
 
   const containerVariants = {
     hidden: {},
@@ -44,26 +46,30 @@ export default function AnimatedText({
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
-        style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3em' }}
-        aria-label={text}
+        style={{ display: 'block' }}
+        aria-label={text.replace(/\n/g, ' ')}
       >
-        {words.map((word, i) => (
-          <span
-            key={i}
-            style={{
-              display: 'inline-block',
-              overflow: 'hidden',
-              paddingBottom: '0.08em',
-              marginBottom: '-0.08em',
-              lineHeight: 1.15,
-            }}
-          >
-            <motion.span
-              variants={wordVariants}
-              style={{ display: 'inline-block' }}
-            >
-              {word}
-            </motion.span>
+        {lines.map((line, li) => (
+          <span key={li} aria-hidden="true" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3em', justifyContent: align === 'center' ? 'center' : 'flex-start' }}>
+            {line.split(' ').map((word, i) => (
+              <span
+                key={i}
+                style={{
+                  display: 'inline-block',
+                  overflow: 'hidden',
+                  paddingBottom: '0.08em',
+                  marginBottom: '-0.08em',
+                  lineHeight: 1.15,
+                }}
+              >
+                <motion.span
+                  variants={wordVariants}
+                  style={{ display: 'inline-block' }}
+                >
+                  {word}
+                </motion.span>
+              </span>
+            ))}
           </span>
         ))}
       </motion.span>

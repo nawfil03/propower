@@ -1,5 +1,6 @@
 import RevealOnScroll from '../components/RevealOnScroll';
 import GlassCard from '../components/GlassCard';
+import SectionHero from '../components/SectionHero';
 import CTA from '../components/CTA';
 
 const sectors = [
@@ -28,18 +29,13 @@ export default function Industries() {
   return (
     <main id="main">
 
-      {/* Clean White Header */}
-      <div className="section container" style={{ paddingTop: '20vh', paddingBottom: '10vh' }}>
-        <RevealOnScroll>
-          <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Sectors We Serve</span>
-          <h1 style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: 'var(--text-main)', marginTop: '16px' }}>
-            CRITICAL<br/>INFRASTRUCTURE
-          </h1>
-          <p style={{ maxWidth: '680px', fontSize: '1.25rem', color: 'var(--text-secondary)', marginTop: '32px', lineHeight: 1.6 }}>
-            Three primary client segments, one technically capable partner — from utility-grade grid infrastructure to mission-critical facility power.
-          </p>
-        </RevealOnScroll>
-      </div>
+      <SectionHero
+        eyebrow="Sectors We Serve"
+        title={'CRITICAL\nINFRASTRUCTURE'}
+        lead="Three primary client segments, one technically capable partner — from utility-grade grid infrastructure to mission-critical facility power."
+        badgeLabel="Client Segments"
+        badgeValue="3 Sectors"
+      />
 
       <div className="container" style={{ paddingBottom: '100px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '40px' }}>

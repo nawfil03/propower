@@ -1,6 +1,7 @@
 import CTA from '../components/CTA';
 import RevealOnScroll from '../components/RevealOnScroll';
 import GlassCard from '../components/GlassCard';
+import SectionHero from '../components/SectionHero';
 
 const strengths = [
   {
@@ -24,12 +25,13 @@ export default function About() {
   return (
     <main id="main">
 
-      {/* Clean White Header */}
-      <div className="section container" style={{ paddingTop: '20vh', paddingBottom: '10vh' }}>
-         <h1 style={{ fontSize: 'clamp(3rem, 8vw, 8rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: 'var(--text-main)' }}>
-          ENGINEERING<br/>THE FUTURE<br/>OF POWER
-        </h1>
-      </div>
+      <SectionHero
+        eyebrow="About ProPower"
+        title={'ENGINEERING\nTHE FUTURE OF POWER'}
+        lead="A UAE-based electrical engineering and contracting partner built for utility, EPC and critical infrastructure work — from first line diagram to final commissioning."
+        badgeLabel="Founded on Engineering Discipline"
+        badgeValue="UAE & GCC"
+      />
 
       <div className="container" style={{ paddingBottom: '120px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '80px' }}>

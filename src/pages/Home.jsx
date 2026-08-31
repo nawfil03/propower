@@ -9,7 +9,8 @@ import {
 import RevealOnScroll from '../components/RevealOnScroll';
 import MagneticButton from '../components/MagneticButton';
 import GlassCard from '../components/GlassCard';
-import VideoScrub from '../components/VideoScrub';
+import LiveGridPulse from '../components/LiveGridPulse';
+import CountUp from '../components/CountUp';
 import CTA from '../components/CTA';
 
 const Hero3D = lazy(() => import('../components/Hero3D'));
@@ -346,10 +347,10 @@ function WhoWeServe() {
 // ── 6. Stats Strip ──
 function StatsStrip() {
   const stats = [
-    { num: '220', unit: 'kV', label: 'Grid Capability' },
-    { num: '50+', unit: '', label: 'Major Projects' },
-    { num: '3', unit: '', label: 'ISO Certifications' },
-    { num: '5+', unit: '', label: 'Utility Approvals' },
+    { value: 220, suffix: 'kV', label: 'Grid Capability' },
+    { value: 50, suffix: '+', label: 'Major Projects' },
+    { value: 3, suffix: '', label: 'ISO Certifications' },
+    { value: 5, suffix: '+', label: 'Utility Approvals' },
   ];
 
   return (
@@ -359,7 +360,7 @@ function StatsStrip() {
           <RevealOnScroll key={i} delay={i * 0.1}>
             <div>
               <span style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--text-main)', lineHeight: 1 }}>
-                {s.num}<span style={{ color: 'var(--accent-gold)' }}>{s.unit}</span>
+                <CountUp end={s.value} duration={1600} /><span style={{ color: 'var(--accent-gold)' }}>{s.suffix}</span>
               </span>
               <p style={{ marginTop: '12px', fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{s.label}</p>
             </div>
@@ -403,12 +404,7 @@ export default function Home() {
         <ScrollJourney3D />
       </Suspense>
       <SolutionAreas />
-      <VideoScrub
-        src="/assets/vid/electricity.mp4"
-        eyebrow="The Grid, Live"
-        title="Power that never stops moving"
-        body="From switchgear to substation, our systems are built for continuous, reliable delivery — engineered, tested and maintained by one accountable team."
-      />
+      <LiveGridPulse />
       <KeyDifferentiators />
       <WhoWeServe />
       <StatsStrip />
