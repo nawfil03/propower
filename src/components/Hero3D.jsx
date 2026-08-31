@@ -1,21 +1,9 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
+import useReducedMotion from '../hooks/useReducedMotion';
 
 const GOLD = '#c4903f';
 const GOLD_LIGHT = '#e7c789';
-
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false
-  );
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = (e) => setReduced(e.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  return reduced;
-}
 
 // Grid nodes rendered as a single Points draw call — represents a distributed power network.
 function GridParticles({ reduced, count = 420, radius = 4 }) {

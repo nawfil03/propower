@@ -352,6 +352,156 @@ p {
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* ── Scroll Journey (pinned 3D camera flythrough) ── */
+.scroll-journey {
+  position: relative;
+  height: 320vh;
+  background: #050505;
+}
+
+.scroll-journey-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-journey-canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.scroll-journey-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+}
+
+.scroll-journey-caption {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 min(8vw, 90px);
+  pointer-events: none;
+}
+
+.scroll-journey-caption.is-right {
+  justify-content: flex-end;
+}
+
+.scroll-journey-caption .inner {
+  max-width: 480px;
+}
+
+.scroll-journey-caption.is-right .inner {
+  text-align: right;
+}
+
+.scroll-journey-caption h3 {
+  color: #fff;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  letter-spacing: -0.03em;
+  margin: 18px 0 16px;
+}
+
+.scroll-journey-caption p {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .scroll-journey {
+    height: 260vh;
+  }
+  .scroll-journey-caption .inner {
+    max-width: 90%;
+  }
+}
+
+/* ── Cinematic Scroll-Scrubbed Video Section ── */
+.video-scrub-section {
+  position: relative;
+  height: 260vh;
+  background: #000;
+}
+
+.video-scrub-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-scrub-sticky video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+}
+
+.video-scrub-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.6) 100%);
+}
+
+.video-scrub-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 760px;
+  padding: 0 32px;
+}
+
+.video-scrub-content .eyebrow {
+  background: rgba(196, 144, 63, 0.18);
+}
+
+.video-scrub-content h2 {
+  color: #fff;
+  margin: 20px 0;
+}
+
+.video-scrub-content p {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.2rem;
+}
+
+/* ── 3D Tilt Cards (GlassCard) ── */
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.card-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(196, 144, 63, 0.14), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.card-3d:hover::before {
+  opacity: 1;
+}
+
+.card-3d-dark::before {
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(231, 199, 137, 0.16), transparent 60%);
+}
+
 /* ── Hero 3D Visual Frame ── */
 .hero-3d-frame {
   position: relative;

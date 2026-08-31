@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 export default function GlassCard({
   children,
-  className = 'card',
+  className = 'card card-3d',
   delay = 0,
   style = {},
 }) {

@@ -8,9 +8,12 @@ import {
 
 import RevealOnScroll from '../components/RevealOnScroll';
 import MagneticButton from '../components/MagneticButton';
+import GlassCard from '../components/GlassCard';
+import VideoScrub from '../components/VideoScrub';
 import CTA from '../components/CTA';
 
 const Hero3D = lazy(() => import('../components/Hero3D'));
+const ScrollJourney3D = lazy(() => import('../components/ScrollJourney3D'));
 
 // ── 1. Hero ──
 function Hero() {
@@ -225,15 +228,17 @@ function SolutionAreas() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'var(--border-subtle)', borderRadius: '24px', overflow: 'hidden' }}>
           {areas.map((a, i) => (
-            <RevealOnScroll key={a.title} delay={(i % 3) * 0.08}>
-              <div style={{ background: 'var(--bg-white)', padding: '40px 32px', height: '100%', transition: 'background 0.3s ease' }}>
-                <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                  <a.icon size={26} weight="duotone" color="var(--accent-gold)" />
-                </div>
-                <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', letterSpacing: '-0.01em' }}>{a.title}</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
+            <GlassCard
+              key={a.title}
+              delay={(i % 3) * 0.08}
+              style={{ background: 'var(--bg-white)', padding: '40px 32px', borderRadius: 0 }}
+            >
+              <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                <a.icon size={26} weight="duotone" color="var(--accent-gold)" />
               </div>
-            </RevealOnScroll>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', letterSpacing: '-0.01em' }}>{a.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
+            </GlassCard>
           ))}
         </div>
       </div>
@@ -271,15 +276,17 @@ function KeyDifferentiators() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {diffs.map((d, i) => (
-            <RevealOnScroll key={i} delay={i * 0.15}>
-              <div style={{ background: 'var(--bg-white)', padding: '48px', borderRadius: '24px', border: '1px solid var(--border-subtle)', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--accent-gold)', opacity: 0.8, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
-                  {d.num}
-                </span>
-                <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em' }}>{d.title}</h3>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
-              </div>
-            </RevealOnScroll>
+            <GlassCard
+              key={i}
+              delay={i * 0.15}
+              style={{ background: 'var(--bg-white)', padding: '48px', borderRadius: '24px', border: '1px solid var(--border-subtle)', height: '100%', display: 'flex', flexDirection: 'column' }}
+            >
+              <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--accent-gold)', opacity: 0.8, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
+                {d.num}
+              </span>
+              <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em' }}>{d.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
+            </GlassCard>
           ))}
         </div>
       </div>
@@ -319,13 +326,16 @@ function WhoWeServe() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
           {segments.map((s, i) => (
-            <RevealOnScroll key={s.title} delay={i * 0.12}>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '44px 36px', height: '100%' }}>
-                <s.icon size={32} weight="duotone" color="var(--accent-gold-light)" />
-                <h3 style={{ color: '#fff', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
-              </div>
-            </RevealOnScroll>
+            <GlassCard
+              key={s.title}
+              delay={i * 0.12}
+              className="card card-3d card-3d-dark"
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '44px 36px', height: '100%' }}
+            >
+              <s.icon size={32} weight="duotone" color="var(--accent-gold-light)" />
+              <h3 style={{ color: '#fff', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
+            </GlassCard>
           ))}
         </div>
       </div>
@@ -389,7 +399,16 @@ export default function Home() {
       <VisionText />
       <ApprovalsRow />
       <CoreDisciplines />
+      <Suspense fallback={null}>
+        <ScrollJourney3D />
+      </Suspense>
       <SolutionAreas />
+      <VideoScrub
+        src="/assets/vid/electricity.mp4"
+        eyebrow="The Grid, Live"
+        title="Power that never stops moving"
+        body="From switchgear to substation, our systems are built for continuous, reliable delivery — engineered, tested and maintained by one accountable team."
+      />
       <KeyDifferentiators />
       <WhoWeServe />
       <StatsStrip />

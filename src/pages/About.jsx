@@ -1,5 +1,6 @@
 import CTA from '../components/CTA';
 import RevealOnScroll from '../components/RevealOnScroll';
+import GlassCard from '../components/GlassCard';
 
 const strengths = [
   {
@@ -69,13 +70,16 @@ export default function About() {
           </RevealOnScroll>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
             {strengths.map((s, i) => (
-              <RevealOnScroll key={s.num} delay={i * 0.15}>
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '32px', height: '100%' }}>
-                  <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{s.num}</span>
-                  <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: '20px 0 16px', letterSpacing: '-0.02em' }}>{s.title}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
-                </div>
-              </RevealOnScroll>
+              <GlassCard
+                key={s.num}
+                delay={i * 0.15}
+                className="card card-3d card-3d-dark"
+                style={{ borderTop: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.02)', borderRadius: '18px', padding: '32px 28px', height: '100%' }}
+              >
+                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{s.num}</span>
+                <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: '20px 0 16px', letterSpacing: '-0.02em' }}>{s.title}</h3>
+                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
+              </GlassCard>
             ))}
           </div>
         </div>

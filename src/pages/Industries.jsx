@@ -1,4 +1,5 @@
 import RevealOnScroll from '../components/RevealOnScroll';
+import GlassCard from '../components/GlassCard';
 import CTA from '../components/CTA';
 
 const sectors = [
@@ -43,18 +44,20 @@ export default function Industries() {
       <div className="container" style={{ paddingBottom: '100px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '40px' }}>
           {sectors.map((sec, i) => (
-            <RevealOnScroll key={sec.title} delay={i * 0.12}>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <div style={{ height: '260px', width: '100%', overflow: 'hidden' }}>
-                  <img src={sec.img} alt={sec.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ padding: '40px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 700, opacity: 0.5 }}>{String(i + 1).padStart(2, '0')}</span>
-                  <h3 style={{ fontSize: '1.6rem', margin: '16px 0', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{sec.title}</h3>
-                  <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{sec.desc}</p>
-                </div>
+            <GlassCard
+              key={sec.title}
+              delay={i * 0.12}
+              style={{ borderRadius: '24px', overflow: 'hidden', background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', height: '100%' }}
+            >
+              <div style={{ height: '260px', width: '100%', overflow: 'hidden' }}>
+                <img src={sec.img} alt={sec.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
-            </RevealOnScroll>
+              <div style={{ padding: '40px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, opacity: 0.5 }}>{String(i + 1).padStart(2, '0')}</span>
+                <h3 style={{ fontSize: '1.6rem', margin: '16px 0', letterSpacing: '-0.02em', lineHeight: 1.2 }}>{sec.title}</h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{sec.desc}</p>
+              </div>
+            </GlassCard>
           ))}
         </div>
       </div>
