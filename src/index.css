@@ -362,35 +362,6 @@ p {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-/* ── Live Grid Pulse (owned 3D network scene) ── */
-.live-grid {
-  position: relative;
-  background: #050505;
-  padding: 180px 0;
-  overflow: hidden;
-  min-height: 560px;
-  display: flex;
-  align-items: center;
-}
-
-.live-grid-canvas {
-  position: absolute;
-  inset: 0;
-}
-
-.live-grid-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(0, 0, 0, 0.7) 85%);
-  pointer-events: none;
-}
-
-.live-grid-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
 /* ── 3D Tilt Cards (GlassCard) ── */
 .card-3d {
   position: relative;

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
@@ -12,116 +12,112 @@ import MagneticButton from '../components/MagneticButton';
 import GlassCard from '../components/GlassCard';
 import CountUp from '../components/CountUp';
 import CTA from '../components/CTA';
-import { gsap, ScrollTrigger } from '../lib/gsap';
+import { gsap } from '../lib/gsap';
 
-const Hero3D = lazy(() => import('../components/Hero3D'));
-const LiveGridPulse = lazy(() => import('../components/LiveGridPulse'));
-
-// ── 1. Hero ──
+// ── 1. Hero (Centered and immersive) ──
 function Hero() {
   return (
-    <div className="section" style={{ padding: '20vh 32px 10vh' }}>
-      <div className="container hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: '64px', alignItems: 'center' }}>
-        <div>
-          <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="eyebrow"
-          >
-            UAE &amp; GCC · LV / MV / HV Electrical EPC
-          </motion.span>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 style={{ fontSize: 'clamp(3rem, 6.2vw, 6.5rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 0.94, color: 'var(--text-main)', marginTop: '20px' }}>
-              ENGINEERING<br/>
-              <span style={{ color: 'var(--accent-gold)' }}>CRITICAL</span><br/>
-              POWER
-            </h1>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', maxWidth: '560px', margin: '28px 0 0', lineHeight: 1.6 }}
-          >
-            A single-source partner for electrical contracting, power transmission &amp; distribution, substations, testing &amp; commissioning, and operation &amp; maintenance — trusted across utility, EPC, industrial and data center projects in the UAE and wider GCC.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            style={{ marginTop: '40px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}
-          >
-            <Link to="/services" className="btn btn-primary" style={{ fontSize: '1rem' }}>
-              Our Capabilities <span className="btn-arrow">→</span>
-            </Link>
-            <Link to="/contact" className="btn btn-ghost" style={{ fontSize: '1rem' }}>
-              Start a Project
-            </Link>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="hero-3d-frame"
+    <div className="section" style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '180px 24px 80px', position: 'relative' }}>
+      <div style={{ maxWidth: '880px', margin: '0 auto', zIndex: 5 }}>
+        <motion.span
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="eyebrow"
+          style={{ background: 'rgba(196, 144, 63, 0.15)', color: 'var(--accent-gold-light)', border: '1px solid rgba(196, 144, 63, 0.25)' }}
         >
-          <div className="hero-3d-grid-overlay" />
-          <Suspense fallback={null}>
-            <Hero3D />
-          </Suspense>
-          <div className="hero-3d-badge">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span className="dot" />
-              <span>Grid Systems, Modeled Live</span>
-            </div>
-            <span style={{ color: 'var(--accent-gold-light)' }}>Up to 220kV</span>
-          </div>
+          UAE &amp; GCC · LV / MV / HV Electrical EPC
+        </motion.span>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <h1 style={{ fontSize: 'clamp(3rem, 7.5vw, 7.5rem)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 0.92, color: '#ffffff', marginTop: '24px' }}>
+            ENGINEERING<br/>
+            <span style={{ color: 'var(--accent-gold)' }}>CRITICAL</span><br/>
+            POWER
+          </h1>
         </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.7)', margin: '32px auto 0', maxWidth: '680px', lineHeight: 1.6 }}
+        >
+          A single-source partner for electrical contracting, power transmission &amp; distribution, substations, testing &amp; commissioning, and operation &amp; maintenance — trusted across utility, EPC, industrial and data center projects.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          style={{ marginTop: '48px', display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}
+        >
+          <Link to="/services" className="btn btn-primary" style={{ fontSize: '1rem', background: '#ffffff', color: '#000000', fontWeight: 600 }}>
+            Our Capabilities <span className="btn-arrow">→</span>
+          </Link>
+          <Link to="/contact" className="btn btn-ghost" style={{ fontSize: '1rem', borderColor: 'rgba(255,255,255,0.2)', color: '#ffffff' }}>
+            Start a Project
+          </Link>
+        </motion.div>
+      </div>
+      
+      {/* Scroll Down Indicator */}
+      <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', opacity: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)' }}>Scroll Journey</span>
+        <motion.div 
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ width: '2px', height: '24px', background: 'var(--accent-gold)' }}
+        />
       </div>
     </div>
   );
 }
 
-// ── 2. Full-Width Showcase Image ──
+// ── 2. Full-Width Showcase Image (Styled as a floating showcase card) ──
 function ShowcaseImage() {
   return (
-    <div className="container" style={{ paddingBottom: '0' }}>
+    <div className="container" style={{ padding: '40px 32px' }}>
       <motion.div 
         initial={{ opacity: 0, y: 60, scale: 0.96 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ width: '100%', height: '60vh', minHeight: '400px', borderRadius: '28px', overflow: 'hidden', position: 'relative' }}
+        style={{ 
+          width: '100%', 
+          height: '60vh', 
+          minHeight: '400px', 
+          borderRadius: '28px', 
+          overflow: 'hidden', 
+          position: 'relative',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 24px 48px rgba(0,0,0,0.5)'
+        }}
       >
         <img 
           src="/assets/img/hero-wide.png" 
           alt="ProPower Substation Project" 
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.4) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
         <div className="showcase-overlay" style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
           <div>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Core Discipline</span>
-            <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px' }}>Substation &amp; Grid Infrastructure, up to 220kV</h3>
+            <span style={{ color: 'var(--accent-gold-light)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Featured Substation</span>
+            <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px', letterSpacing: '-0.02em' }}>High-Voltage Grid Infrastructure, up to 220kV</h3>
           </div>
           <div className="showcase-badges" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             {['DEWA', 'SEWA', 'EtihadWE'].map(badge => (
               <span key={badge} style={{
                 padding: '7px 14px',
-                background: 'rgba(255,255,255,0.15)',
-                backdropFilter: 'blur(10px)',
+                background: 'rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(8px)',
                 borderRadius: '999px',
                 color: '#fff',
                 fontSize: '11px',
                 fontWeight: 600,
                 whiteSpace: 'nowrap',
-                border: '1px solid rgba(255,255,255,0.2)'
+                border: '1px solid rgba(255,255,255,0.15)'
               }}>
                 {badge} Reference
               </span>
@@ -133,7 +129,7 @@ function ShowcaseImage() {
   );
 }
 
-// ── 3. Vision Text ──
+// ── 3. Vision Text (floats over the persistent 3D background) ──
 // Pinned, scroll-scrubbed word-by-word reveal of the actual vision statement —
 // the sentence "writes itself in" as the section holds in view.
 function VisionText() {
@@ -146,9 +142,9 @@ function VisionText() {
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       const spans = textRef.current.querySelectorAll('.vision-word');
-      gsap.set(spans, { color: 'rgba(242, 242, 245, 0.16)' });
+      gsap.set(spans, { color: 'rgba(255, 255, 255, 0.18)' });
       const tween = gsap.to(spans, {
-        color: '#f2f2f5',
+        color: '#ffffff',
         stagger: 0.06,
         ease: 'none',
         scrollTrigger: {
@@ -166,7 +162,7 @@ function VisionText() {
   }, { scope: sectionRef });
 
   return (
-    <div ref={sectionRef} className="section container" style={{ padding: '15vh 32px', display: 'flex', alignItems: 'center', minHeight: '60vh' }}>
+    <div ref={sectionRef} className="section container" style={{ padding: '15vh 32px', display: 'flex', alignItems: 'center', minHeight: '60vh', background: 'transparent' }}>
       <p ref={textRef} style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.25, maxWidth: '1200px' }}>
         {words.map((w, i) => (
           <span key={i} className="vision-word" style={{ marginRight: '0.28em', display: 'inline-block' }}>{w}</span>
@@ -176,7 +172,7 @@ function VisionText() {
   );
 }
 
-// ── 4. Core Disciplines — Dark Contrast Block ──
+// ── 4. Core Disciplines — Floating Glass Bento Grid ──
 function CoreDisciplines() {
   const items = [
     { title: 'Substations & Grid up to 220kV', img: '/assets/img/hero-3d.jpg', span: 'span 2', rowSpan: 'span 2' },
@@ -186,7 +182,7 @@ function CoreDisciplines() {
   ];
 
   return (
-    <div style={{ padding: '140px 0', background: '#0a0a0a', color: '#fff' }}>
+    <div className="section" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Solutions Portfolio</span>
@@ -201,17 +197,18 @@ function CoreDisciplines() {
               transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               style={{ 
                 gridColumn: item.span, gridRow: item.rowSpan,
-                borderRadius: '20px', overflow: 'hidden', position: 'relative', background: '#111', cursor: 'pointer',
-                border: '1px solid rgba(255,255,255,0.08)'
+                borderRadius: '20px', overflow: 'hidden', position: 'relative', background: 'rgba(20,20,20,0.6)', cursor: 'pointer',
+                border: '1px solid rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(10px)'
               }}
             >
-              <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45, transition: 'opacity 0.4s ease' }} 
-                onMouseEnter={e => e.target.style.opacity = 0.7}
-                onMouseLeave={e => e.target.style.opacity = 0.45}
+              <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4, transition: 'opacity 0.4s ease' }} 
+                onMouseEnter={e => e.target.style.opacity = 0.65}
+                onMouseLeave={e => e.target.style.opacity = 0.4}
               />
-              <div style={{ position: 'absolute', bottom: '28px', left: '28px', right: '28px' }}>
+              <div style={{ position: 'absolute', bottom: '28px', left: '28px', right: '28px', zIndex: 10 }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent-gold)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{String(i + 1).padStart(2, '0')}</span>
-                <h3 style={{ color: '#fff', fontSize: item.rowSpan === 'span 2' ? '2.25rem' : '1.35rem', lineHeight: 1.15, margin: '8px 0 0' }}>
+                <h3 style={{ color: '#fff', fontSize: item.rowSpan === 'span 2' ? '2.25rem' : '1.35rem', lineHeight: 1.15, margin: '8px 0 0', letterSpacing: '-0.02em' }}>
                   {item.title}
                 </h3>
               </div>
@@ -231,7 +228,7 @@ function CoreDisciplines() {
   );
 }
 
-// ── 4b. Full-Spectrum Solution Areas ──
+// ── 5. Full-Spectrum Solution Areas (9 Cards styled in premium dark glass) ──
 function SolutionAreas() {
   const gridRef = useRef(null);
 
@@ -268,31 +265,31 @@ function SolutionAreas() {
   ];
 
   return (
-    <div className="section" style={{ background: 'var(--bg-white)', padding: '140px 0' }}>
+    <div className="section" style={{ background: 'transparent', padding: '100px 0' }}>
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow">Complete Portfolio</span>
-          <h2 style={{ maxWidth: '760px', marginBottom: '20px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>
+          <h2 style={{ maxWidth: '760px', marginBottom: '20px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#ffffff' }}>
             Nine Solution Areas, One Accountable Partner
           </h2>
-          <p style={{ maxWidth: '640px', fontSize: '1.15rem', color: 'var(--text-secondary)', marginBottom: '64px' }}>
+          <p style={{ maxWidth: '640px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.65)', marginBottom: '64px' }}>
             From supply and installation through testing, commissioning and maintenance — every discipline under a single scope of responsibility.
           </p>
         </RevealOnScroll>
 
-        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'var(--border-subtle)', borderRadius: '24px', overflow: 'hidden' }}>
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
           {areas.map((a) => (
             <GlassCard
               key={a.title}
               animateEntrance={false}
               className="card card-3d solution-card"
-              style={{ background: 'var(--bg-white)', padding: '40px 32px', borderRadius: 0 }}
+              style={{ background: 'rgba(15,15,15,0.5)', padding: '40px 32px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)' }}
             >
-              <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+              <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
                 <a.icon size={26} weight="duotone" color="var(--accent-gold)" />
               </div>
-              <h3 style={{ fontSize: '1.2rem', marginBottom: '10px', letterSpacing: '-0.01em' }}>{a.title}</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: '#ffffff', letterSpacing: '-0.01em' }}>{a.title}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
             </GlassCard>
           ))}
         </div>
@@ -301,7 +298,7 @@ function SolutionAreas() {
   );
 }
 
-// ── 5. Key Differentiators ──
+// ── 6. Key Differentiators ──
 function KeyDifferentiators() {
   const diffs = [
     {
@@ -322,11 +319,11 @@ function KeyDifferentiators() {
   ];
 
   return (
-    <div className="section" style={{ background: 'var(--bg-secondary)', padding: '140px 0' }}>
+    <div className="section" style={{ background: 'transparent', padding: '100px 0' }}>
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow">Strategic Value</span>
-          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>Why ProPower</h2>
+          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#ffffff' }}>Why ProPower</h2>
         </RevealOnScroll>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
@@ -334,13 +331,13 @@ function KeyDifferentiators() {
             <GlassCard
               key={i}
               delay={i * 0.15}
-              style={{ background: 'var(--bg-white)', padding: '48px', borderRadius: '24px', border: '1px solid var(--border-subtle)', height: '100%', display: 'flex', flexDirection: 'column' }}
+              style={{ background: 'rgba(15,15,15,0.5)', padding: '48px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.06)', height: '100%', display: 'flex', flexDirection: 'column', backdropFilter: 'blur(12px)' }}
             >
               <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--accent-gold)', opacity: 0.8, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
                 {d.num}
               </span>
-              <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em' }}>{d.title}</h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
+              <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em', color: '#ffffff' }}>{d.title}</h3>
+              <p style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
             </GlassCard>
           ))}
         </div>
@@ -349,7 +346,7 @@ function KeyDifferentiators() {
   );
 }
 
-// ── 5b. Who We Serve ──
+// ── 7. Who We Serve ──
 function WhoWeServe() {
   const segments = [
     {
@@ -370,7 +367,7 @@ function WhoWeServe() {
   ];
 
   return (
-    <div className="section" style={{ padding: '140px 0', background: '#0a0a0a', color: '#fff' }}>
+    <div className="section" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Who We Serve</span>
@@ -385,7 +382,7 @@ function WhoWeServe() {
               key={s.title}
               delay={i * 0.12}
               className="card card-3d card-3d-dark"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '24px', padding: '44px 36px', height: '100%' }}
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '44px 36px', height: '100%', backdropFilter: 'blur(12px)' }}
             >
               <s.icon size={32} weight="duotone" color="var(--accent-gold-light)" />
               <h3 style={{ color: '#fff', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
@@ -398,7 +395,7 @@ function WhoWeServe() {
   );
 }
 
-// ── 6. Stats Strip ──
+// ── 8. Stats Strip (Clean transparent block) ──
 function StatsStrip() {
   const stats = [
     { value: 220, suffix: 'kV', label: 'Grid Capability' },
@@ -408,15 +405,15 @@ function StatsStrip() {
   ];
 
   return (
-    <div className="section container" style={{ paddingTop: '120px', paddingBottom: '120px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '48px', borderTop: '2px solid var(--text-main)', paddingTop: '60px' }}>
+    <div className="section container" style={{ paddingTop: '100px', paddingBottom: '100px', background: 'transparent' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '48px', borderTop: '2px solid rgba(255,255,255,0.1)', paddingTop: '60px' }}>
         {stats.map((s, i) => (
           <RevealOnScroll key={i} delay={i * 0.1}>
             <div>
-              <span style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--text-main)', lineHeight: 1 }}>
+              <span style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.04em', color: '#ffffff', lineHeight: 1 }}>
                 <CountUp end={s.value} duration={1600} /><span style={{ color: 'var(--accent-gold)' }}>{s.suffix}</span>
               </span>
-              <p style={{ marginTop: '12px', fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{s.label}</p>
+              <p style={{ marginTop: '12px', fontSize: '1rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>{s.label}</p>
             </div>
           </RevealOnScroll>
         ))}
@@ -425,16 +422,16 @@ function StatsStrip() {
   );
 }
 
-// ── 7. Approvals Row ──
+// ── 9. Approvals Row ──
 function ApprovalsRow() {
   const approvals = ['DEWA', 'SEWA', 'EtihadWE', 'ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018'];
   return (
-    <div style={{ padding: '60px 0', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+    <div style={{ padding: '60px 0', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'transparent' }}>
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', marginRight: '16px' }}>Project References &amp; Certifications</span>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginRight: '16px' }}>Project References &amp; Certifications</span>
           {approvals.map(a => (
-            <span key={a} style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-secondary)', padding: '8px 20px', background: 'var(--bg-secondary)', borderRadius: '999px' }}>
+            <span key={a} style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.8)', padding: '8px 20px', background: 'rgba(255,255,255,0.04)', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.06)' }}>
               {a}
             </span>
           ))}
@@ -447,17 +444,21 @@ function ApprovalsRow() {
 
 // ── MAIN PAGE ──
 export default function Home() {
+  useEffect(() => {
+    document.body.classList.add('page-home');
+    return () => {
+      document.body.classList.remove('page-home');
+    };
+  }, []);
+
   return (
-    <main id="main">
+    <main id="main" style={{ position: 'relative' }}>
       <Hero />
       <ShowcaseImage />
       <VisionText />
       <ApprovalsRow />
       <CoreDisciplines />
       <SolutionAreas />
-      <Suspense fallback={null}>
-        <LiveGridPulse />
-      </Suspense>
       <KeyDifferentiators />
       <WhoWeServe />
       <StatsStrip />
