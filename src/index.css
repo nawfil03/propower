@@ -362,78 +362,6 @@ p {
   border-bottom: 1px solid var(--border-subtle);
 }
 
-/* ── Scroll Journey (pinned 3D camera flythrough) ── */
-.scroll-journey {
-  position: relative;
-  height: 320vh;
-  background: #050505;
-}
-
-.scroll-journey-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.scroll-journey-canvas {
-  position: absolute;
-  inset: 0;
-}
-
-.scroll-journey-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 30%, rgba(0, 0, 0, 0.6) 100%);
-  pointer-events: none;
-}
-
-.scroll-journey-caption {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  padding: 0 min(8vw, 90px);
-  pointer-events: none;
-}
-
-.scroll-journey-caption.is-right {
-  justify-content: flex-end;
-}
-
-.scroll-journey-caption .inner {
-  max-width: 480px;
-}
-
-.scroll-journey-caption.is-right .inner {
-  text-align: right;
-}
-
-.scroll-journey-caption h3 {
-  color: #fff;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  letter-spacing: -0.03em;
-  margin: 18px 0 16px;
-}
-
-.scroll-journey-caption p {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 1.15rem;
-  line-height: 1.6;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .scroll-journey {
-    height: 260vh;
-  }
-  .scroll-journey-caption .inner {
-    max-width: 90%;
-  }
-}
-
-
 /* ── Live Grid Pulse (owned 3D network scene) ── */
 .live-grid {
   position: relative;
@@ -658,6 +586,26 @@ p {
   flex-direction: column;
   width: 100%;
   border-top: 1px solid var(--text-main);
+  padding-left: 28px;
+}
+
+.designer-wire-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--border-subtle);
+}
+
+.designer-wire-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, var(--accent-electric) 0%, var(--accent-gold) 100%);
+  box-shadow: 0 0 12px rgba(95, 212, 255, 0.5);
 }
 
 .designer-list-item {
@@ -692,6 +640,7 @@ p {
 }
 
 .list-item-num {
+  display: inline-block;
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 600;

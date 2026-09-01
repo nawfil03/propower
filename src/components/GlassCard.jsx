@@ -6,6 +6,7 @@ export default function GlassCard({
   className = 'card card-3d',
   delay = 0,
   style = {},
+  animateEntrance = true,
 }) {
   const ref = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -50,14 +51,12 @@ export default function GlassCard({
         '--mx': spotlightX,
         '--my': spotlightY,
       }}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{
-        duration: 0.7,
-        delay,
-        ease: [0.22, 0.61, 0.36, 1],
-      }}
+      {...(animateEntrance ? {
+        initial: { opacity: 0, y: 40 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, amount: 0.15 },
+        transition: { duration: 0.7, delay, ease: [0.22, 0.61, 0.36, 1] },
+      } : {})}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}

@@ -1,7 +1,11 @@
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+
 import RevealOnScroll from '../components/RevealOnScroll';
 import GlassCard from '../components/GlassCard';
 import SectionHero from '../components/SectionHero';
 import CTA from '../components/CTA';
+import { gsap } from '../lib/gsap';
 
 const sectors = [
   {
@@ -26,6 +30,30 @@ const personas = [
 ];
 
 export default function Industries() {
+  const gridRef = useRef(null);
+
+  // Presents the three client segments one at a time as you scroll through the
+  // grid, tied to the section's own height rather than an artificial pin.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const cards = gridRef.current.querySelectorAll('.sector-card');
+      gsap.set(cards, { opacity: 0, y: 60, scale: 0.94 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: 'top 78%',
+          end: 'bottom 55%',
+          scrub: 0.5,
+        },
+      });
+      cards.forEach((card, i) => {
+        tl.to(card, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' }, i * 0.55);
+      });
+    });
+    return () => mm.revert();
+  }, { scope: gridRef });
+
   return (
     <main id="main">
 
@@ -38,11 +66,12 @@ export default function Industries() {
       />
 
       <div className="container" style={{ paddingBottom: '100px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '40px' }}>
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '40px' }}>
           {sectors.map((sec, i) => (
             <GlassCard
               key={sec.title}
-              delay={i * 0.12}
+              animateEntrance={false}
+              className="card card-3d sector-card"
               style={{ borderRadius: '24px', overflow: 'hidden', background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', height: '100%' }}
             >
               <div style={{ height: '260px', width: '100%', overflow: 'hidden' }}>

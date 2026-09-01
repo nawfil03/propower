@@ -1,7 +1,11 @@
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+
 import CTA from '../components/CTA';
 import RevealOnScroll from '../components/RevealOnScroll';
 import GlassCard from '../components/GlassCard';
 import SectionHero from '../components/SectionHero';
+import { gsap } from '../lib/gsap';
 
 const strengths = [
   {
@@ -22,6 +26,33 @@ const strengths = [
 ];
 
 export default function About() {
+  const strengthsRef = useRef(null);
+
+  // Presents the three stated strengths in sequence, each rising into place
+  // and its number stepping forward as its "turn" is reached in the scroll.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const cards = strengthsRef.current.querySelectorAll('.strength-card');
+      const nums = strengthsRef.current.querySelectorAll('.strength-num');
+      gsap.set(cards, { opacity: 0, y: 50, scale: 0.94 });
+      gsap.set(nums, { scale: 0.85 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: strengthsRef.current,
+          start: 'top 78%',
+          end: 'bottom 55%',
+          scrub: 0.5,
+        },
+      });
+      cards.forEach((card, i) => {
+        tl.to(card, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' }, i * 0.55)
+          .to(nums[i], { scale: 1, color: '#e7c789', duration: 1, ease: 'power2.out' }, i * 0.55);
+      });
+    });
+    return () => mm.revert();
+  }, { scope: strengthsRef });
+
   return (
     <main id="main">
 
@@ -70,15 +101,15 @@ export default function About() {
             <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>What Sets Us Apart</span>
             <h2 style={{ color: '#fff', marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>Key Strengths</h2>
           </RevealOnScroll>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
-            {strengths.map((s, i) => (
+          <div ref={strengthsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+            {strengths.map((s) => (
               <GlassCard
                 key={s.num}
-                delay={i * 0.15}
-                className="card card-3d card-3d-dark"
+                animateEntrance={false}
+                className="card card-3d card-3d-dark strength-card"
                 style={{ borderTop: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.02)', borderRadius: '18px', padding: '32px 28px', height: '100%' }}
               >
-                <span style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{s.num}</span>
+                <span className="strength-num" style={{ display: 'inline-block', fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{s.num}</span>
                 <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: '20px 0 16px', letterSpacing: '-0.02em' }}>{s.title}</h3>
                 <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
               </GlassCard>

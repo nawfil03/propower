@@ -1,6 +1,7 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useGSAP } from '@gsap/react';
 import {
   Lightning, Buildings, PlugsConnected, Gauge, Broadcast, FireSimple,
   HouseLine, Wrench, Path, ShieldCheck, GlobeHemisphereEast, HardHat,
@@ -11,9 +12,9 @@ import MagneticButton from '../components/MagneticButton';
 import GlassCard from '../components/GlassCard';
 import CountUp from '../components/CountUp';
 import CTA from '../components/CTA';
+import { gsap, ScrollTrigger } from '../lib/gsap';
 
 const Hero3D = lazy(() => import('../components/Hero3D'));
-const ScrollJourney3D = lazy(() => import('../components/ScrollJourney3D'));
 const LiveGridPulse = lazy(() => import('../components/LiveGridPulse'));
 
 // ── 1. Hero ──
@@ -133,14 +134,44 @@ function ShowcaseImage() {
 }
 
 // ── 3. Vision Text ──
+// Pinned, scroll-scrubbed word-by-word reveal of the actual vision statement —
+// the sentence "writes itself in" as the section holds in view.
 function VisionText() {
+  const sectionRef = useRef(null);
+  const textRef = useRef(null);
+  const text = 'We deliver end-to-end electrical power transmission, distribution, substation, testing, commissioning and maintenance solutions across the UAE and GCC.';
+  const words = text.split(' ');
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const spans = textRef.current.querySelectorAll('.vision-word');
+      gsap.set(spans, { color: 'rgba(242, 242, 245, 0.16)' });
+      const tween = gsap.to(spans, {
+        color: '#f2f2f5',
+        stagger: 0.06,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=90%',
+          scrub: 0.4,
+          pin: true,
+          pinType: 'transform',
+        },
+      });
+      return () => tween.scrollTrigger?.kill();
+    });
+    return () => mm.revert();
+  }, { scope: sectionRef });
+
   return (
-    <div className="section container" style={{ padding: '15vh 32px' }}>
-      <RevealOnScroll>
-        <p style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.25, color: 'var(--text-main)', maxWidth: '1200px' }}>
-          We deliver end-to-end electrical power transmission, distribution, substation, testing, commissioning and maintenance solutions across the UAE and GCC.
-        </p>
-      </RevealOnScroll>
+    <div ref={sectionRef} className="section container" style={{ padding: '15vh 32px', display: 'flex', alignItems: 'center', minHeight: '60vh' }}>
+      <p ref={textRef} style={{ fontSize: 'clamp(1.75rem, 3.5vw, 3.5rem)', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1.25, maxWidth: '1200px' }}>
+        {words.map((w, i) => (
+          <span key={i} className="vision-word" style={{ marginRight: '0.28em', display: 'inline-block' }}>{w}</span>
+        ))}
+      </p>
     </div>
   );
 }
@@ -202,6 +233,28 @@ function CoreDisciplines() {
 
 // ── 4b. Full-Spectrum Solution Areas ──
 function SolutionAreas() {
+  const gridRef = useRef(null);
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const cards = gridRef.current.querySelectorAll('.solution-card');
+      gsap.from(cards, {
+        opacity: 0,
+        scale: 0.9,
+        y: 24,
+        duration: 0.5,
+        ease: 'back.out(1.4)',
+        stagger: { each: 0.07, from: 'start', grid: 'auto' },
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: 'top 82%',
+        },
+      });
+    });
+    return () => mm.revert();
+  }, { scope: gridRef });
+
   const areas = [
     { icon: PlugsConnected, title: 'Electrical Engineering & Contracting', desc: 'LV/MV electrical systems, installations, power cabling, panels & infrastructure.' },
     { icon: Lightning, title: 'Power, Utility & Energy', desc: 'Transmission & distribution, substations & transformers, protection & control, solar.' },
@@ -227,11 +280,12 @@ function SolutionAreas() {
           </p>
         </RevealOnScroll>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'var(--border-subtle)', borderRadius: '24px', overflow: 'hidden' }}>
-          {areas.map((a, i) => (
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2px', background: 'var(--border-subtle)', borderRadius: '24px', overflow: 'hidden' }}>
+          {areas.map((a) => (
             <GlassCard
               key={a.title}
-              delay={(i % 3) * 0.08}
+              animateEntrance={false}
+              className="card card-3d solution-card"
               style={{ background: 'var(--bg-white)', padding: '40px 32px', borderRadius: 0 }}
             >
               <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
@@ -400,9 +454,6 @@ export default function Home() {
       <VisionText />
       <ApprovalsRow />
       <CoreDisciplines />
-      <Suspense fallback={null}>
-        <ScrollJourney3D />
-      </Suspense>
       <SolutionAreas />
       <Suspense fallback={null}>
         <LiveGridPulse />

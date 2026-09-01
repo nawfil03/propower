@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { useGSAP } from '@gsap/react';
 
 import RevealOnScroll from '../components/RevealOnScroll';
 import SectionHero from '../components/SectionHero';
 import CTA from '../components/CTA';
+import { gsap } from '../lib/gsap';
 
 const divisions = [
   {
@@ -74,6 +76,46 @@ function DesignerList() {
   };
 
   const active = activeIndex !== null ? divisions[activeIndex] : null;
+  const wireFillRef = useRef(null);
+
+  // The "wire" is a literal visualization of the page's own message — nine
+  // separate disciplines wired into one continuous, accountable system —
+  // scrubbed to scroll position as the list itself is read top to bottom.
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.fromTo(
+        wireFillRef.current,
+        { height: '0%' },
+        {
+          height: '100%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 35%',
+            end: 'bottom 65%',
+            scrub: 0.3,
+          },
+        }
+      );
+
+      const nums = containerRef.current.querySelectorAll('.list-item-num');
+      nums.forEach((num) => {
+        gsap.to(num, {
+          color: '#c4903f',
+          scale: 1.15,
+          duration: 0.3,
+          scrollTrigger: {
+            trigger: num,
+            start: 'top 62%',
+            end: 'bottom 45%',
+            toggleActions: 'play reverse play reverse',
+          },
+        });
+      });
+    });
+    return () => mm.revert();
+  }, { scope: containerRef });
 
   return (
     <div
@@ -82,6 +124,9 @@ function DesignerList() {
       onMouseMove={handleMouseMove}
       style={{ position: 'relative' }}
     >
+      <div className="designer-wire-track" aria-hidden="true">
+        <div ref={wireFillRef} className="designer-wire-fill" />
+      </div>
       {divisions.map((div, i) => {
         const isOpen = openIndex === i;
         return (
