@@ -46,7 +46,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="eyebrow"
-          style={{ background: 'rgba(196, 144, 63, 0.15)', color: 'var(--accent-gold-light)', border: '1px solid rgba(196, 144, 63, 0.25)' }}
+          style={{ color: 'var(--accent-gold-light)', justifyContent: 'center' }}
         >
           UAE &amp; GCC · LV / MV / HV Electrical EPC
         </motion.span>

@@ -14,13 +14,13 @@ export default function GlassCard({
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
 
-  const rotateX = useSpring(useTransform(mouseY, [0, 1], [6, -6]), {
-    stiffness: 200,
-    damping: 20,
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [2.5, -2.5]), {
+    stiffness: 220,
+    damping: 24,
   });
-  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-8, 8]), {
-    stiffness: 200,
-    damping: 20,
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), {
+    stiffness: 220,
+    damping: 24,
   });
 
   const handleMouseMove = (e) => {

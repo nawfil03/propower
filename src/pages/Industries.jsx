@@ -63,6 +63,8 @@ export default function Industries() {
         lead="Three primary client segments, one technically capable partner — from utility-grade grid infrastructure to mission-critical facility power."
         badgeLabel="Client Segments"
         badgeValue="3 Sectors"
+        image="/assets/img/hero-substation.png"
+        imageAlt="ProPower substation infrastructure"
       />
 
       <div className="container" style={{ paddingBottom: '100px' }}>

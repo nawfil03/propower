@@ -112,6 +112,8 @@ export default function Contact() {
         lead="Tell us about your substation, transmission, data center or maintenance requirement — our engineering team responds directly, no call center."
         badgeLabel="Direct Engineering Contact"
         badgeValue="UAE Based"
+        image="/assets/img/hero-wide.png"
+        imageAlt="ProPower project site"
       />
 
       <div className="container">

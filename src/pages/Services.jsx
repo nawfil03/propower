@@ -201,6 +201,8 @@ export default function Services() {
         lead="Nine integrated solution areas covering electrical contracting, power & utility infrastructure, data centers, automation, ELV, fire & life safety, and retrofit & maintenance — supply through commissioning, under one accountable scope."
         badgeLabel="Solutions Portfolio"
         badgeValue="9 Disciplines"
+        image="/assets/img/services-datacenter.png"
+        imageAlt="ProPower data center critical power installation"
       />
 
       <div className="container" style={{ paddingBottom: '80px' }}>

@@ -1,13 +1,11 @@
-import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedText from './AnimatedText';
 
-const Hero3D = lazy(() => import('./Hero3D'));
-
-// Shared two-column page header — headline + lead on the left, the signature
-// 3D energy-core visual on the right — reused across every top-level page so
-// the "engineered grid" motif is a site-wide identity, not a Home-only moment.
-export default function SectionHero({ eyebrow, title, lead, badgeLabel, badgeValue, children }) {
+// Shared two-column page header — headline + lead on the left, a real project
+// photograph on the right — reused across every top-level page so the same
+// visual identity (dark ground, gold accent, honest photography) carries
+// through the whole site instead of stopping at Home.
+export default function SectionHero({ eyebrow, title, lead, badgeLabel, badgeValue, image, imageAlt, children }) {
   return (
     <div className="section" style={{ padding: '20vh 32px 8vh' }}>
       <div className="container hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: '64px', alignItems: 'center' }}>
@@ -52,17 +50,14 @@ export default function SectionHero({ eyebrow, title, lead, badgeLabel, badgeVal
         </div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="hero-3d-frame"
+          className="hero-visual-frame"
         >
-          <div className="hero-3d-grid-overlay" />
-          <Suspense fallback={null}>
-            <Hero3D />
-          </Suspense>
+          {image && <img src={image} alt={imageAlt || ''} />}
           {(badgeLabel || badgeValue) && (
-            <div className="hero-3d-badge">
+            <div className="hero-visual-caption">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span className="dot" />
                 <span>{badgeLabel}</span>

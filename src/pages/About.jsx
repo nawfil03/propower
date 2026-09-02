@@ -62,6 +62,8 @@ export default function About() {
         lead="A UAE-based electrical engineering and contracting partner built for utility, EPC and critical infrastructure work — from first line diagram to final commissioning."
         badgeLabel="Founded on Engineering Discipline"
         badgeValue="UAE & GCC"
+        image="/assets/img/hero-engineer.png"
+        imageAlt="ProPower field engineering team"
       />
 
       <div className="container" style={{ paddingBottom: '120px' }}>
@@ -90,7 +92,7 @@ export default function About() {
 
         {/* Inline image */}
         <div style={{ marginTop: '120px', width: '100%', height: '500px', borderRadius: '24px', overflow: 'hidden' }}>
-           <img src="/assets/img/hero-wide.png" alt="ProPower Substation" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+           <img src="/assets/img/about-team.png" alt="ProPower project team on site" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
 
