@@ -14,7 +14,7 @@ import Services from './pages/Services';
 import Industries from './pages/Industries';
 import Contact from './pages/Contact';
 
-const ImmersiveBackground3D = lazy(() => import('./components/ImmersiveBackground3D'));
+const PhotoJourney3D = lazy(() => import('./components/PhotoJourney3D'));
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -31,7 +31,7 @@ function AnimatedRoutes() {
       */}
       {location.pathname === '/' && (
         <Suspense fallback={null}>
-          <ImmersiveBackground3D />
+          <PhotoJourney3D />
         </Suspense>
       )}
       <PageTransition>

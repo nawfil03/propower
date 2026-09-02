@@ -362,6 +362,84 @@ p {
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* ── Photo Journey (real photography flown through 3D space on scroll) ── */
+.photo-journey {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #050505;
+  overflow: hidden;
+  perspective: 1600px;
+}
+
+.photo-journey-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.photo-journey-frame {
+  position: absolute;
+  top: 46%;
+  width: clamp(280px, 34vw, 520px);
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(196, 144, 63, 0.12);
+  will-change: transform, opacity;
+}
+
+.photo-journey-frame.is-left {
+  left: 36%;
+}
+
+.photo-journey-frame.is-right {
+  left: 64%;
+}
+
+.photo-journey-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.photo-journey-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.photo-journey-caption {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+}
+
+.photo-journey-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, transparent 15%, rgba(5, 5, 5, 0.55) 60%, rgba(5, 5, 5, 0.92) 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .photo-journey-frame {
+    width: clamp(220px, 58vw, 360px);
+    left: 50% !important;
+  }
+}
+
 /* ── 3D Tilt Cards (GlassCard) ── */
 .card-3d {
   position: relative;
