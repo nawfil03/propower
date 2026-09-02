@@ -14,11 +14,33 @@ import CountUp from '../components/CountUp';
 import CTA from '../components/CTA';
 import { gsap } from '../lib/gsap';
 
-// ── 1. Hero (Centered and immersive) ──
+// ── 1. Hero (Centered, immersive, real project photography behind the copy) ──
 function Hero() {
+  const bgRef = useRef(null);
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.to(bgRef.current, {
+        yPercent: 14,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: bgRef.current.closest('.hero-section'),
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.4,
+        },
+      });
+    });
+    return () => mm.revert();
+  }, {});
+
   return (
-    <div className="section" style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '180px 24px 80px', position: 'relative' }}>
-      <div style={{ maxWidth: '880px', margin: '0 auto', zIndex: 5 }}>
+    <div className="section hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '160px 24px 100px', position: 'relative', overflow: 'hidden' }}>
+      <div className="hero-backdrop">
+        <img ref={bgRef} src="/assets/img/hero-infrastructure.png" alt="" aria-hidden="true" />
+      </div>
+      <div style={{ maxWidth: '880px', margin: '0 auto', zIndex: 5, position: 'relative' }}>
         <motion.span
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,7 +86,7 @@ function Hero() {
       
       {/* Scroll Down Indicator */}
       <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', opacity: 0.5, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-        <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)' }}>Scroll Journey</span>
+        <span style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)' }}>Scroll to Explore</span>
         <motion.div 
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
