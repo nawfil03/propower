@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGSAP } from '@gsap/react';
+import {
+  Lightning, Gauge, ShieldCheck, ChartLineUp, Thermometer, ClipboardText,
+} from '@phosphor-icons/react';
 
 import RevealOnScroll from '../components/RevealOnScroll';
 import SectionHero from '../components/SectionHero';
@@ -53,6 +56,15 @@ const divisions = [
     img: '/assets/img/hero-circuit.svg',
     items: ['Infrastructure projects', 'Electrical infrastructure', 'Project support & execution', 'Specialized engineering solutions'],
   },
+];
+
+const capabilities = [
+  { icon: Lightning, label: 'Primary & Secondary Injection Kits' },
+  { icon: Gauge, label: 'Circuit Breaker Analyzers' },
+  { icon: ShieldCheck, label: 'Insulation Resistance & Hi-Pot Testers' },
+  { icon: ChartLineUp, label: 'Load Flow Analysis — ETAP & CYME' },
+  { icon: Thermometer, label: 'Thermography & Partial Discharge' },
+  { icon: ClipboardText, label: 'Asset Life Assessment Studies' },
 ];
 
 function DesignerList() {
@@ -195,29 +207,48 @@ export default function Services() {
       />
 
       <div className="container" style={{ paddingBottom: '80px' }}>
+        <RevealOnScroll style={{ maxWidth: '620px', marginBottom: '56px', borderTop: '2px solid var(--text-main)', paddingTop: '32px' }}>
+          <span className="eyebrow">Browse the Portfolio</span>
+          <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', lineHeight: 1.6 }}>
+            Every discipline below is delivered in-house under one accountable scope — select any to see exactly what it covers.
+          </p>
+        </RevealOnScroll>
         <DesignerList />
       </div>
 
       {/* In-house testing capability */}
       <div style={{ background: 'var(--bg-secondary)', padding: '120px 0' }}>
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '60px', alignItems: 'center' }}>
-          <RevealOnScroll>
+        <div className="container">
+          <RevealOnScroll style={{ maxWidth: '640px', marginBottom: '56px' }}>
             <span className="eyebrow">In-House Capability</span>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', marginBottom: '24px' }}>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', marginBottom: '20px' }}>
               Professional Testing &amp; Diagnostics
             </h2>
-            <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '20px' }}>
-              We maintain our own primary &amp; secondary injection kits, circuit breaker analyzers, insulation resistance and high-potential testers, enabling fast, safe field commissioning without third-party dependency.
-            </p>
-            <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-              Advanced studies — power system / load flow analysis (ETAP &amp; CYME), thermography, partial discharge, harmonic and power quality analysis, and life assessment studies for electrical assets — support engineering decisions across every project phase.
+            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+              Our own equipment and engineering studies mean fast, safe field commissioning with no third-party dependency.
             </p>
           </RevealOnScroll>
-          <RevealOnScroll delay={0.15}>
-            <div style={{ width: '100%', aspectRatio: '4/3', borderRadius: '24px', overflow: 'hidden' }}>
-              <img src="/assets/img/hero-substation.png" alt="ProPower field testing and commissioning" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </RevealOnScroll>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '60px', alignItems: 'center' }}>
+            <RevealOnScroll delay={0.1}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+                {capabilities.map((cap) => (
+                  <div
+                    key={cap.label}
+                    style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '18px 20px', background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '16px' }}
+                  >
+                    <cap.icon size={22} weight="duotone" color="var(--accent-gold)" style={{ flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.3 }}>{cap.label}</span>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+            <RevealOnScroll delay={0.2}>
+              <div style={{ width: '100%', aspectRatio: '4/3', borderRadius: '24px', overflow: 'hidden', boxShadow: 'var(--shadow-md)' }}>
+                <img src="/assets/img/hero-substation.png" alt="ProPower field testing and commissioning" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            </RevealOnScroll>
+          </div>
         </div>
       </div>
 
