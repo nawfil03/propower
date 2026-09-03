@@ -47,7 +47,7 @@ export default function About() {
       });
       cards.forEach((card, i) => {
         tl.to(card, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' }, i * 0.55)
-          .to(nums[i], { scale: 1, color: '#e7c789', duration: 1, ease: 'power2.out' }, i * 0.55);
+          .to(nums[i], { scale: 1, duration: 1, ease: 'power2.out' }, i * 0.55);
       });
     });
     return () => mm.revert();
@@ -97,23 +97,23 @@ export default function About() {
       </div>
 
       {/* Key Strengths */}
-      <div style={{ background: '#0a0a0a', color: '#fff', padding: '140px 0' }}>
+      <div style={{ background: 'var(--bg-secondary)', padding: '140px 0', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <RevealOnScroll>
-            <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>What Sets Us Apart</span>
-            <h2 style={{ color: '#fff', marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>Key Strengths</h2>
+            <span className="eyebrow">What Sets Us Apart</span>
+            <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em' }}>Key Strengths</h2>
           </RevealOnScroll>
           <div ref={strengthsRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
             {strengths.map((s) => (
               <GlassCard
                 key={s.num}
                 animateEntrance={false}
-                className="card card-3d card-3d-dark strength-card"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.15)', background: 'rgba(255,255,255,0.02)', borderRadius: '18px', padding: '32px 28px', height: '100%' }}
+                className="card card-3d strength-card"
+                style={{ borderTop: '3px solid var(--accent-gold)', background: 'var(--bg-white)', borderRadius: '18px', padding: '32px 28px', height: '100%', boxShadow: 'var(--shadow-sm)' }}
               >
                 <span className="strength-num" style={{ display: 'inline-block', fontSize: '2.5rem', fontWeight: 800, color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{s.num}</span>
-                <h3 style={{ color: '#fff', fontSize: '1.5rem', margin: '20px 0 16px', letterSpacing: '-0.02em' }}>{s.title}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
+                <h3 style={{ color: 'var(--text-main)', fontSize: '1.5rem', margin: '20px 0 16px', letterSpacing: '-0.02em' }}>{s.title}</h3>
+                <p style={{ color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
               </GlassCard>
             ))}
           </div>

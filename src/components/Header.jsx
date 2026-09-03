@@ -12,6 +12,7 @@ const navItems = [
 
 export default function Header() {
   const location = useLocation();
+  const isHome = location.pathname === '/';
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -47,7 +48,7 @@ export default function Header() {
   return (
     <>
       <motion.header
-        className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}
+        className={`site-header ${isScrolled ? 'is-scrolled' : ''} ${mobileOpen ? 'mobile-nav-open' : ''} ${isHome ? 'is-home' : ''}`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: isHidden ? -100 : 0, opacity: isHidden ? 0 : 1 }}
         transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -80,7 +81,11 @@ export default function Header() {
 
           {/* CTA — Right */}
           <div className="nav-cta">
-            <Link to="/contact" className="btn btn-primary" style={{ padding: '10px 28px', fontSize: '14px' }}>
+            <Link
+              to="/contact"
+              className="btn btn-primary"
+              style={{ padding: '10px 28px', fontSize: '14px', ...(isHome && !isScrolled ? { background: '#ffffff', color: '#0a0a0a' } : {}) }}
+            >
               Get Quote <span className="btn-arrow">→</span>
             </Link>
           </div>

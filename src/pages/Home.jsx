@@ -97,56 +97,79 @@ function Hero() {
   );
 }
 
-// ── 2. Full-Width Showcase Image (Styled as a floating showcase card) ──
+// ── 2. Featured Project — pinned scroll reveal: the headline gives way as
+// the photo grows into full view, then the caption settles in. A single,
+// carefully-scoped scroll-scrubbed moment rather than an effect repeated
+// everywhere, using GSAP's pin (pinType: 'transform' — see PageTransition's
+// note on why plain pins break under a transformed ancestor).
 function ShowcaseImage() {
+  const sectionRef = useRef(null);
+  const headlineRef = useRef(null);
+  const frameRef = useRef(null);
+  const captionRef = useRef(null);
+
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.set(frameRef.current, { scale: 0.55, borderRadius: 44 });
+      gsap.set(captionRef.current, { opacity: 0, y: 24 });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=110%',
+          scrub: 0.6,
+          pin: true,
+          pinType: 'transform',
+        },
+      });
+      tl.to(headlineRef.current, { opacity: 0, y: -24, ease: 'none' }, 0)
+        .to(frameRef.current, { scale: 1, borderRadius: 28, ease: 'none' }, 0)
+        .to(captionRef.current, { opacity: 1, y: 0, ease: 'none' }, 0.6);
+    });
+    return () => mm.revert();
+  }, {});
+
   return (
-    <div className="container" style={{ padding: '40px 32px' }}>
-      <motion.div 
-        initial={{ opacity: 0, y: 60, scale: 0.96 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{ 
-          width: '100%', 
-          height: '60vh', 
-          minHeight: '400px', 
-          borderRadius: '28px', 
-          overflow: 'hidden', 
-          position: 'relative',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 24px 48px rgba(0,0,0,0.5)'
-        }}
-      >
-        <img 
-          src="/assets/img/hero-wide.png" 
-          alt="ProPower Substation Project" 
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-        />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.6) 100%)' }} />
-        <div className="showcase-overlay" style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
-          <div>
-            <span style={{ color: 'var(--accent-gold-light)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Featured Substation</span>
-            <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px', letterSpacing: '-0.02em' }}>High-Voltage Grid Infrastructure, up to 220kV</h3>
-          </div>
-          <div className="showcase-badges" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            {['DEWA', 'SEWA', 'EtihadWE'].map(badge => (
-              <span key={badge} style={{
-                padding: '7px 14px',
-                background: 'rgba(255,255,255,0.12)',
-                backdropFilter: 'blur(8px)',
-                borderRadius: '999px',
-                color: '#fff',
-                fontSize: '11px',
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-                border: '1px solid rgba(255,255,255,0.15)'
-              }}>
-                {badge} Reference
-              </span>
-            ))}
+    <div ref={sectionRef} className="showcase-pin">
+      <div ref={headlineRef} className="showcase-pin-headline">
+        <span className="eyebrow" style={{ justifyContent: 'center' }}>Featured Project</span>
+        <h2>Substation Infrastructure, Built to Utility Standard</h2>
+      </div>
+      <div className="showcase-pin-stage">
+        <div ref={frameRef} className="showcase-pin-frame">
+          <img
+            src="/assets/img/hero-wide.png"
+            alt="ProPower Substation Project"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div className="showcase-pin-gradient" />
+          <div ref={captionRef} className="showcase-overlay" style={{ position: 'absolute', bottom: '32px', left: '32px', right: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: '16px' }}>
+            <div>
+              <span style={{ color: 'var(--accent-gold-light)', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Featured Substation</span>
+              <h3 style={{ color: '#fff', fontSize: '1.75rem', marginTop: '8px', letterSpacing: '-0.02em' }}>High-Voltage Grid Infrastructure, up to 220kV</h3>
+            </div>
+            <div className="showcase-badges" style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {['DEWA', 'SEWA', 'EtihadWE'].map(badge => (
+                <span key={badge} style={{
+                  padding: '7px 14px',
+                  background: 'rgba(255,255,255,0.12)',
+                  backdropFilter: 'blur(8px)',
+                  borderRadius: '999px',
+                  color: '#fff',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  border: '1px solid rgba(255,255,255,0.15)'
+                }}>
+                  {badge} Reference
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -164,9 +187,9 @@ function VisionText() {
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       const spans = textRef.current.querySelectorAll('.vision-word');
-      gsap.set(spans, { color: 'rgba(255, 255, 255, 0.18)' });
+      gsap.set(spans, { color: 'rgba(29, 29, 31, 0.16)' });
       const tween = gsap.to(spans, {
-        color: '#ffffff',
+        color: '#1d1d1f',
         stagger: 0.06,
         ease: 'none',
         scrollTrigger: {
@@ -207,8 +230,8 @@ function CoreDisciplines() {
     <div className="section" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
         <RevealOnScroll>
-          <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Solutions Portfolio</span>
-          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#fff' }}>Core Disciplines</h2>
+          <span className="eyebrow">Solutions Portfolio</span>
+          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>Core Disciplines</h2>
         </RevealOnScroll>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gridAutoRows: '280px', gap: '20px' }}>
@@ -289,10 +312,10 @@ function SolutionAreas() {
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow">Complete Portfolio</span>
-          <h2 style={{ maxWidth: '760px', marginBottom: '20px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#ffffff' }}>
+          <h2 style={{ maxWidth: '760px', marginBottom: '20px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>
             Nine Solution Areas, One Accountable Partner
           </h2>
-          <p style={{ maxWidth: '640px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.65)', marginBottom: '64px' }}>
+          <p style={{ maxWidth: '640px', fontSize: '1.15rem', color: 'var(--text-secondary)', marginBottom: '64px' }}>
             From supply and installation through testing, commissioning and maintenance — every discipline under a single scope of responsibility.
           </p>
         </RevealOnScroll>
@@ -303,13 +326,13 @@ function SolutionAreas() {
               key={a.title}
               animateEntrance={false}
               className="card card-3d solution-card"
-              style={{ background: 'rgba(15,15,15,0.5)', padding: '40px 32px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)' }}
+              style={{ background: 'var(--bg-secondary)', padding: '40px 32px', borderRadius: '24px', border: '1px solid var(--border-subtle)' }}
             >
-              <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+              <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: 'rgba(156, 106, 31, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
                 <a.icon size={26} weight="duotone" color="var(--accent-gold)" />
               </div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: '#ffffff', letterSpacing: '-0.01em' }}>{a.title}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: 'var(--text-main)', letterSpacing: '-0.01em' }}>{a.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.55, margin: 0 }}>{a.desc}</p>
             </GlassCard>
           ))}
         </div>
@@ -343,7 +366,7 @@ function KeyDifferentiators() {
       <div className="container">
         <RevealOnScroll>
           <span className="eyebrow">Strategic Value</span>
-          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#ffffff' }}>Why ProPower</h2>
+          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>Why ProPower</h2>
         </RevealOnScroll>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
@@ -351,13 +374,13 @@ function KeyDifferentiators() {
             <GlassCard
               key={i}
               delay={i * 0.15}
-              style={{ background: 'rgba(15,15,15,0.5)', padding: '48px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.06)', height: '100%', display: 'flex', flexDirection: 'column', backdropFilter: 'blur(12px)' }}
+              style={{ background: 'var(--bg-secondary)', padding: '48px', borderRadius: '24px', border: '1px solid var(--border-subtle)', height: '100%', display: 'flex', flexDirection: 'column' }}
             >
               <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--accent-gold)', opacity: 0.8, fontFamily: 'var(--font-display)', lineHeight: 1 }}>
                 {d.num}
               </span>
-              <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em', color: '#ffffff' }}>{d.title}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.65)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
+              <h3 style={{ fontSize: '1.75rem', margin: '24px 0 16px', letterSpacing: '-0.02em', color: 'var(--text-main)' }}>{d.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, fontSize: '1.05rem' }}>{d.desc}</p>
             </GlassCard>
           ))}
         </div>
@@ -390,8 +413,8 @@ function WhoWeServe() {
     <div className="section" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
         <RevealOnScroll>
-          <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Who We Serve</span>
-          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: '#fff' }}>
+          <span className="eyebrow">Who We Serve</span>
+          <h2 style={{ marginBottom: '60px', fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.03em', color: 'var(--text-main)' }}>
             Built for Mission-Critical Clients
           </h2>
         </RevealOnScroll>
@@ -401,12 +424,12 @@ function WhoWeServe() {
             <GlassCard
               key={s.title}
               delay={i * 0.12}
-              className="card card-3d card-3d-dark"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px', padding: '44px 36px', height: '100%', backdropFilter: 'blur(12px)' }}
+              className="card card-3d"
+              style={{ background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '24px', padding: '44px 36px', height: '100%', boxShadow: 'var(--shadow-sm)' }}
             >
-              <s.icon size={32} weight="duotone" color="var(--accent-gold-light)" />
-              <h3 style={{ color: '#fff', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
-              <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
+              <s.icon size={32} weight="duotone" color="var(--accent-gold)" />
+              <h3 style={{ color: 'var(--text-main)', fontSize: '1.4rem', margin: '24px 0 12px', letterSpacing: '-0.01em' }}>{s.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0, fontSize: '1rem' }}>{s.desc}</p>
             </GlassCard>
           ))}
         </div>
@@ -426,14 +449,14 @@ function StatsStrip() {
 
   return (
     <div className="section container" style={{ paddingTop: '100px', paddingBottom: '100px', background: 'transparent' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '48px', borderTop: '2px solid rgba(255,255,255,0.1)', paddingTop: '60px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '48px', borderTop: '2px solid var(--text-main)', paddingTop: '60px' }}>
         {stats.map((s, i) => (
           <RevealOnScroll key={i} delay={i * 0.1}>
             <div>
-              <span style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.04em', color: '#ffffff', lineHeight: 1 }}>
+              <span style={{ fontSize: 'clamp(3rem, 6vw, 5rem)', fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--text-main)', lineHeight: 1 }}>
                 <CountUp end={s.value} duration={1600} /><span style={{ color: 'var(--accent-gold)' }}>{s.suffix}</span>
               </span>
-              <p style={{ marginTop: '12px', fontSize: '1rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>{s.label}</p>
+              <p style={{ marginTop: '12px', fontSize: '1rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{s.label}</p>
             </div>
           </RevealOnScroll>
         ))}
@@ -446,12 +469,12 @@ function StatsStrip() {
 function ApprovalsRow() {
   const approvals = ['DEWA', 'SEWA', 'EtihadWE', 'ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018'];
   return (
-    <div style={{ padding: '60px 0', borderTop: '1px solid rgba(255,255,255,0.08)', borderBottom: '1px solid rgba(255,255,255,0.08)', background: 'transparent' }}>
+    <div style={{ padding: '60px 0', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)', background: 'transparent' }}>
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginRight: '16px' }}>Project References &amp; Certifications</span>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--text-muted)', marginRight: '16px' }}>Project References &amp; Certifications</span>
           {approvals.map(a => (
-            <span key={a} style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.8)', padding: '8px 20px', background: 'rgba(255,255,255,0.04)', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <span key={a} style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)', padding: '8px 20px', background: 'var(--bg-secondary)', borderRadius: '999px', border: '1px solid var(--border-subtle)' }}>
               {a}
             </span>
           ))}

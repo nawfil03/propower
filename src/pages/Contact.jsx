@@ -32,7 +32,7 @@ function ContactForm() {
 
   const fieldStyle = {
     width: '100%',
-    background: 'rgba(255,255,255,0.03)',
+    background: 'var(--bg-secondary)',
     border: '1px solid var(--border-subtle)',
     borderRadius: '14px',
     padding: '16px 18px',
@@ -45,8 +45,8 @@ function ContactForm() {
 
   return (
     <GlassCard
-      className="card card-3d card-3d-dark"
-      style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '28px', padding: 'clamp(32px, 4vw, 56px)' }}
+      className="card card-3d"
+      style={{ background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '28px', padding: 'clamp(32px, 4vw, 56px)', boxShadow: 'var(--shadow-sm)' }}
     >
       <span className="eyebrow">Project Inquiry</span>
       <h2 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)', letterSpacing: '-0.03em', margin: '20px 0 8px' }}>
@@ -126,11 +126,11 @@ export default function Contact() {
             {contactMethods.map((m) => (
               <a key={m.label} href={m.href} className="has-custom-cursor" style={{ display: 'block' }}>
                 <GlassCard
-                  className="card card-3d card-3d-dark"
-                  style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '20px', padding: '28px 30px', display: 'flex', alignItems: 'center', gap: '18px' }}
+                  className="card card-3d"
+                  style={{ background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '20px', padding: '28px 30px', display: 'flex', alignItems: 'center', gap: '18px', boxShadow: 'var(--shadow-sm)' }}
                 >
                   <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(196, 144, 63, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <m.icon size={22} weight="duotone" color="var(--accent-gold-light)" />
+                    <m.icon size={22} weight="duotone" color="var(--accent-gold)" />
                   </div>
                   <div>
                     <span style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>{m.label}</span>
@@ -141,8 +141,8 @@ export default function Contact() {
             ))}
 
             <GlassCard
-              className="card card-3d card-3d-dark"
-              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-subtle)', borderRadius: '20px', padding: '28px 30px', display: 'flex', alignItems: 'center', gap: '18px' }}
+              className="card card-3d"
+              style={{ background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '20px', padding: '28px 30px', display: 'flex', alignItems: 'center', gap: '18px', boxShadow: 'var(--shadow-sm)' }}
             >
               <div style={{ width: '48px', height: '48px', borderRadius: '14px', background: 'rgba(95, 212, 255, 0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <GlobeHemisphereEast size={22} weight="duotone" color="var(--accent-electric)" />

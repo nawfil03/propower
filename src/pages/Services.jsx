@@ -102,7 +102,7 @@ function DesignerList() {
       const nums = containerRef.current.querySelectorAll('.list-item-num');
       nums.forEach((num) => {
         gsap.to(num, {
-          color: '#c4903f',
+          color: '#9c6a1f',
           scale: 1.15,
           duration: 0.3,
           scrollTrigger: {

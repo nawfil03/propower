@@ -90,14 +90,14 @@ export default function Industries() {
       </div>
 
       {/* Project references */}
-      <div style={{ background: '#0a0a0a', color: '#fff', padding: '120px 0' }}>
+      <div style={{ background: 'var(--bg-secondary)', padding: '120px 0', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
         <div className="container">
           <RevealOnScroll>
-            <span className="eyebrow" style={{ color: 'var(--accent-gold)' }}>Track Record</span>
-            <h2 style={{ color: '#fff', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', marginBottom: '24px' }}>
+            <span className="eyebrow">Track Record</span>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', marginBottom: '24px' }}>
               Project References Across the Region
             </h2>
-            <p style={{ maxWidth: '760px', fontSize: '1.15rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7 }}>
+            <p style={{ maxWidth: '760px', fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
               Our project references include work associated with SEWA, DEWA and EtihadWE, as well as critical facilities such as airports, district cooling plants, data centers and major commercial and industrial clients — supported by ISO 9001:2015, ISO 14001:2015 and ISO 45001:2018 certified management systems.
             </p>
           </RevealOnScroll>
