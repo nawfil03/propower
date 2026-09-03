@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import RevealOnScroll from './RevealOnScroll';
 import MagneticButton from './MagneticButton';
 import AnimatedText from './AnimatedText';
@@ -16,10 +15,8 @@ export default function CTA() {
         <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '60px', maxWidth: '600px', margin: '0 auto 60px' }}>
           Partner with ProPower to deliver mission-critical electrical infrastructure across the UAE and GCC.
         </p>
-        <MagneticButton>
-          <Link to="/contact" className="btn btn-primary has-custom-cursor" style={{ fontSize: '1.25rem', padding: '16px 40px' }}>
-            Start a Conversation
-          </Link>
+        <MagneticButton to="/contact" style={{ fontSize: '1.25rem', padding: '16px 40px' }}>
+          Start a Conversation
         </MagneticButton>
       </RevealOnScroll>
     </div>

@@ -239,10 +239,8 @@ function CoreDisciplines() {
         </div>
 
         <div style={{ marginTop: '60px', textAlign: 'center' }}>
-          <MagneticButton>
-            <Link to="/services" className="btn btn-primary has-custom-cursor" style={{ background: 'var(--accent-gold)', color: '#000', fontWeight: 700 }}>
-              View All Capabilities
-            </Link>
+          <MagneticButton to="/services" style={{ background: 'var(--accent-gold)', color: '#000', fontWeight: 700 }}>
+            View All Capabilities
           </MagneticButton>
         </div>
       </div>

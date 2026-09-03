@@ -1,9 +1,17 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
+const MotionLink = motion(Link);
+
+// A single element that is itself the button — never wrap a <Link> or
+// <button> inside this (or you get two overlapping .btn shapes nested in
+// each other). Pass `to` for in-app routes, `href` for external links,
+// or neither for a plain <button>.
 export default function MagneticButton({
   children,
   className = 'btn btn-primary',
+  to,
   href,
   onClick,
   style = {},
@@ -30,12 +38,13 @@ export default function MagneticButton({
     y.set(0);
   };
 
-  const Component = href ? motion.a : motion.button;
+  const Component = to ? MotionLink : href ? motion.a : motion.button;
+  const linkProps = to ? { to } : href ? { href } : {};
 
   return (
     <Component
       ref={ref}
-      href={href}
+      {...linkProps}
       onClick={onClick}
       className={className}
       style={{ ...style, x: springX, y: springY }}
