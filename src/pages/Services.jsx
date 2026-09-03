@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useGSAP } from '@gsap/react';
 
 import RevealOnScroll from '../components/RevealOnScroll';
@@ -57,25 +57,10 @@ const divisions = [
 
 function DesignerList() {
   const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [openIndex, setOpenIndex] = useState(null);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 30, mass: 0.5 });
-  const springY = useSpring(y, { stiffness: 300, damping: 30, mass: 0.5 });
-
-  const IMAGE_W = 380;
-  const IMAGE_H = 240;
-
-  const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    x.set(e.clientX - rect.left - IMAGE_W / 2);
-    y.set(e.clientY - rect.top - IMAGE_H - 70);
-  };
-
-  const active = activeIndex !== null ? divisions[activeIndex] : null;
+  const active = divisions[activeIndex];
   const wireFillRef = useRef(null);
 
   // The "wire" is a literal visualization of the page's own message — nine
@@ -118,75 +103,79 @@ function DesignerList() {
   }, { scope: containerRef });
 
   return (
-    <div
-      ref={containerRef}
-      className="designer-list"
-      onMouseMove={handleMouseMove}
-      style={{ position: 'relative' }}
-    >
-      <div className="designer-wire-track" aria-hidden="true">
-        <div ref={wireFillRef} className="designer-wire-fill" />
-      </div>
-      {divisions.map((div, i) => {
-        const isOpen = openIndex === i;
-        return (
-          <div key={div.title}>
-            <div
-              className="designer-list-item"
-              onMouseEnter={() => setActiveIndex(i)}
-              onMouseLeave={() => setActiveIndex(null)}
-              onClick={() => setOpenIndex(isOpen ? null : i)}
-              role="button"
-              tabIndex={0}
-              aria-expanded={isOpen}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenIndex(isOpen ? null : i); } }}
-              style={{ cursor: 'pointer', flexWrap: 'wrap' }}
-            >
-              <span className="list-item-num">{String(i + 1).padStart(2, '0')}</span>
-              <span className="list-item-title" style={{ flex: 1, padding: '0 24px' }}>{div.title}</span>
-              <motion.span
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                style={{ fontSize: '2rem', fontWeight: 300, color: 'var(--text-muted)', flexShrink: 0 }}
-                aria-hidden="true"
+    <div className="designer-layout">
+      <div ref={containerRef} className="designer-list" style={{ position: 'relative' }}>
+        <div className="designer-wire-track" aria-hidden="true">
+          <div ref={wireFillRef} className="designer-wire-fill" />
+        </div>
+        {divisions.map((div, i) => {
+          const isOpen = openIndex === i;
+          return (
+            <div key={div.title}>
+              <div
+                className="designer-list-item"
+                onMouseEnter={() => setActiveIndex(i)}
+                onFocus={() => setActiveIndex(i)}
+                onClick={() => setOpenIndex(isOpen ? null : i)}
+                role="button"
+                tabIndex={0}
+                aria-expanded={isOpen}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenIndex(isOpen ? null : i); } }}
+                style={{ cursor: 'pointer', flexWrap: 'wrap' }}
               >
-                +
-              </motion.span>
-            </div>
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                <span className="list-item-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="list-item-title" style={{ flex: 1, padding: '0 24px' }}>{div.title}</span>
+                <motion.span
+                  animate={{ rotate: isOpen ? 45 : 0 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ overflow: 'hidden', borderBottom: '1px solid var(--border-subtle)' }}
+                  style={{ fontSize: '2rem', fontWeight: 300, color: 'var(--text-muted)', flexShrink: 0 }}
+                  aria-hidden="true"
                 >
-                  <ul style={{ listStyle: 'none', padding: '8px 0 36px', margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px 32px' }}>
-                    {div.items.map((item) => (
-                      <li key={item} style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', display: 'flex', gap: '14px' }}>
-                        <span style={{ color: 'var(--accent-gold)' }}>—</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        );
-      })}
+                  +
+                </motion.span>
+              </div>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ overflow: 'hidden', borderBottom: '1px solid var(--border-subtle)' }}
+                  >
+                    <ul style={{ listStyle: 'none', padding: '8px 0 36px', margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px 32px' }}>
+                      {div.items.map((item) => (
+                        <li key={item} style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', display: 'flex', gap: '14px' }}>
+                          <span style={{ color: 'var(--accent-gold)' }}>—</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
 
-      {/* Cursor-follow image reveal — desktop only, decorative */}
-      <motion.div
-        className="reveal-image-container"
-        style={{ x: springX, y: springY, width: IMAGE_W, height: IMAGE_H }}
-        animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.9 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        aria-hidden="true"
-      >
-        {active && <img src={active.img} alt="" />}
-      </motion.div>
+      {/* Static preview panel — crossfades to match the hovered/focused
+          division instead of a thumbnail chasing the cursor. */}
+      <div className="designer-preview">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={active.img}
+            src={active.img}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            aria-hidden="true"
+          />
+        </AnimatePresence>
+        <div className="designer-preview-caption">{active.title}</div>
+      </div>
     </div>
   );
 }
