@@ -44,15 +44,29 @@ export default function Preloader() {
     <motion.div
       className={`preloader ${isDone ? 'is-done' : ''}`}
       initial={{ opacity: 1 }}
-      animate={{ opacity: isDone ? 0 : 1 }}
+      animate={{ opacity: isDone ? 0 : 1, scale: isDone ? 1.06 : 1 }}
       transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
     >
-      <svg viewBox="0 0 64 64">
-        <path
-          className="p-bolt"
-          d="M35 10 L18 34 H29 L26 54 L47 26 H35 L38 10 Z"
+      <motion.div
+        className="preloader-mark"
+        initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
+        animate={{ scale: 1, opacity: 1, rotate: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <img src="/assets/img/favicon.svg" alt="" aria-hidden="true" />
+      </motion.div>
+      <motion.div
+        className="preloader-progress-track"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.4 }}
+      >
+        <motion.div
+          className="preloader-progress-fill"
+          animate={{ width: `${Math.min(count, 100)}%` }}
+          transition={{ duration: 0.15, ease: 'easeOut' }}
         />
-      </svg>
+      </motion.div>
       <span className="preloader-counter">{Math.min(count, 100)}%</span>
     </motion.div>
   );
