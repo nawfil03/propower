@@ -23,7 +23,7 @@ export default function Header() {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
       if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsHidden(true);
+        setIsHidden(false); // Changed to false to prevent header from hiding
       } else {
         setIsHidden(false);
       }
@@ -57,13 +57,16 @@ export default function Header() {
           
           {/* Logo — Left */}
           <Link to="/" className="logo" aria-label="ProPower home">
-            <span className="logo-chip">
-              <img
-                src="/assets/img/logo-final.svg"
-                alt="ProPower Logo"
-                style={{ height: isScrolled ? '48px' : '60px', width: 'auto', transition: 'height 0.4s var(--ease-apple)' }}
-              />
-            </span>
+            <img
+              src="/assets/img/logo-final.svg"
+              alt="ProPower Logo"
+              style={{ 
+                height: isScrolled ? '54px' : '75px', 
+                width: 'auto', 
+                transition: 'height 0.4s var(--ease-apple)',
+                filter: isHome && !isScrolled ? 'brightness(0) invert(1)' : 'none'
+              }}
+            />
           </Link>
 
           {/* Navigation — Center */}

@@ -1,193 +1,238 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useGSAP } from '@gsap/react';
+import { Link } from 'react-router-dom';
 import {
-  Lightning, Gauge, ShieldCheck, ChartLineUp, Thermometer, ClipboardText,
+  Lightning,
+  Gauge,
+  ShieldCheck,
+  ChartLineUp,
+  Thermometer,
+  ClipboardText,
+  ArrowRight,
+  CheckCircle,
 } from '@phosphor-icons/react';
 
 import RevealOnScroll from '../components/RevealOnScroll';
 import SectionHero from '../components/SectionHero';
+import GlassCard from '../components/GlassCard';
 import CTA from '../components/CTA';
-import { gsap } from '../lib/gsap';
 
-const divisions = [
+const servicesList = [
   {
+    id: 1,
+    num: '01',
     title: 'Electrical Engineering & Contracting',
+    category: 'Power & Utility',
+    desc: 'Comprehensive LV/MV electrical systems design, turnkey installation, power cabling networks, and custom MDB switchboards.',
     img: '/assets/img/hero-engineer.png',
-    items: ['LV/MV electrical systems', 'Electrical installations', 'Power cabling solutions', 'Panels and electrical infrastructure'],
+    points: [
+      'LV/MV electrical systems design & installation',
+      'Power cabling & heavy cable termination',
+      'Main distribution boards (MDB) & switchgear',
+    ],
   },
   {
+    id: 2,
+    num: '02',
     title: 'Power, Utility & Energy Solutions',
+    category: 'Power & Utility',
+    desc: 'High-voltage transmission up to 220kV, grid substations, power transformer SITC, protection relays, and solar energy solutions.',
     img: '/assets/img/hero-3d.jpg',
-    items: ['Power transmission & distribution', 'Substations & transformers up to 220kV', 'Protection & control systems', 'On-grid / off-grid solar energy solutions'],
+    points: [
+      'Power transmission & distribution up to 220kV',
+      'Substations & power transformer commissioning',
+      'Protection & control relay coordination',
+    ],
   },
   {
+    id: 3,
+    num: '03',
     title: 'Data Center Solutions',
+    category: 'Critical Infrastructure',
+    desc: 'Mission-critical Tier III/IV power distribution, modular 2N UPS & battery banks, precision PDUs, and integrated load bank validation.',
     img: '/assets/img/services-datacenter.png',
-    items: ['Critical power systems', 'UPS & battery systems', 'Power distribution', 'Monitoring, testing & commissioning'],
+    points: [
+      'Critical power systems & 2N UPS redundancy',
+      'Precision power distribution units (PDU)',
+      'Remote telemetry & IST commissioning',
+    ],
   },
   {
+    id: 4,
+    num: '04',
     title: 'Industrial Automation & Instrumentation',
+    category: 'Industrial Automation',
+    desc: 'Precision industrial field instrumentation, custom PLC/SCADA programming, and automated motor control centers (MCC).',
     img: '/assets/img/hero-infrastructure.png',
-    items: ['Industrial instrumentation', 'Automation & control systems', 'PLC, SCADA & HMI', 'Monitoring & measurement'],
+    points: [
+      'Industrial instrumentation & transmitters',
+      'PLC, SCADA & HMI logic engineering',
+      'Motor control centers (MCC) & VFD panels',
+    ],
   },
   {
+    id: 5,
+    num: '05',
     title: 'ELV & Communication Systems',
-    img: '/assets/img/blueprint-panel.svg',
-    items: ['Structured cabling', 'Communication networks', 'CCTV systems', 'Access control & ELV solutions'],
+    category: 'Automation & ELV',
+    desc: 'Enterprise structured fiber and copper cabling, high-definition IP CCTV surveillance, and integrated biometric access control.',
+    img: '/assets/img/services-elv.jpg',
+    points: [
+      'Structured fiber optic & Cat6A cabling',
+      'IP CCTV surveillance & security networks',
+      'Biometric access control & smart ELV',
+    ],
   },
   {
+    id: 6,
+    num: '06',
     title: 'Fire & Life Safety Systems',
+    category: 'Life Safety',
+    desc: 'Intelligent addressable fire alarm networks, VESDA high-sensitivity laser air sampling, and architectural central battery emergency lighting.',
     img: '/assets/img/hero-substation.png',
-    items: ['Fire alarm systems', 'Emergency lighting', 'Fire detection systems', 'Life safety solutions'],
+    points: [
+      'Addressable fire alarm & detection systems',
+      'VESDA early smoke detection systems',
+      'Central battery emergency & exit lighting',
+    ],
   },
   {
+    id: 7,
+    num: '07',
     title: 'Residential & Commercial Solutions',
+    category: 'Commercial Fit-Out',
+    desc: 'Turnkey electrical fit-outs for commercial towers, luxury residential villas, and architectural lighting & power factor control.',
     img: '/assets/img/about-team.png',
-    items: ['Electrical systems', 'Lighting solutions', 'Power distribution', 'ELV & building solutions'],
+    points: [
+      'Commercial high-rise electrical fit-outs',
+      'Luxury residential villa electrification',
+      'Architectural lighting & power factor filters',
+    ],
   },
   {
+    id: 8,
+    num: '08',
     title: 'Retrofit, Testing & Maintenance',
+    category: 'Testing & Diagnostics',
+    desc: 'Omicron primary/secondary injection testing, live switchgear retrofitting up to 220kV, relay calibration, and 24/7 AMC emergency support.',
     img: '/assets/img/hero-wide.png',
-    items: ['System upgradation up to 220kV', 'Modification & retrofit', 'Testing & commissioning', 'Preventive & corrective maintenance (AMC)'],
+    points: [
+      'Omicron primary & secondary injection testing',
+      'Switchgear modifications & retrofits to 220kV',
+      '24/7 preventive & corrective maintenance (AMC)',
+    ],
   },
   {
+    id: 9,
+    num: '09',
     title: 'Infrastructure & Specialized Solutions',
-    img: '/assets/img/hero-circuit.svg',
-    items: ['Infrastructure projects', 'Electrical infrastructure', 'Project support & execution', 'Specialized engineering solutions'],
+    category: 'Civil Infrastructure',
+    desc: 'Major civil utility corridors, highway and bridge electrical networks, heavy cable pulling, and ETAP power system studies.',
+    img: '/assets/img/infrastructure-solutions.jpg',
+    points: [
+      'Civil utility trenching & duct bank projects',
+      'Heavy & high-voltage cable installation',
+      'ETAP & CYME short-circuit & load flow studies',
+    ],
   },
+];
+
+const filterCategories = [
+  'All Disciplines (9)',
+  'Power & Utility',
+  'Critical Infrastructure',
+  'Industrial Automation',
+  'Civil Infrastructure',
 ];
 
 const capabilities = [
-  { icon: Lightning, label: 'Primary & Secondary Injection Kits' },
-  { icon: Gauge, label: 'Circuit Breaker Analyzers' },
-  { icon: ShieldCheck, label: 'Insulation Resistance & Hi-Pot Testers' },
-  { icon: ChartLineUp, label: 'Load Flow Analysis — ETAP & CYME' },
-  { icon: Thermometer, label: 'Thermography & Partial Discharge' },
-  { icon: ClipboardText, label: 'Asset Life Assessment Studies' },
+  { icon: Lightning, label: 'Omicron CPC100 — Primary Injection Test Set' },
+  { icon: Lightning, label: 'Omicron CMC356 — Secondary Injection Kit' },
+  { icon: Gauge, label: 'Meggar Programma TM1800 — Breaker Analyzer' },
+  { icon: ShieldCheck, label: 'Meggar — Insulation Resistance Tester' },
+  { icon: ShieldCheck, label: 'Meggar — Hi-Pot Cable Tester' },
+  { icon: ChartLineUp, label: 'Meggar DLRO — Micro-Ohm Meter' },
+  { icon: Thermometer, label: 'Fluke 1760 — Power Quality Analyzer' },
+  { icon: Thermometer, label: 'Fluke Ti400+ — Thermal Imager' },
+  { icon: ClipboardText, label: 'Vanguard ATRT 03 — Transformer Turns Ratio' },
+  { icon: Gauge, label: 'Dranetz — Power Quality Monitor' },
+  { icon: ChartLineUp, label: 'ETAP / CYME — Load Flow & Short Circuit' },
 ];
 
-function DesignerList() {
-  const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [openIndex, setOpenIndex] = useState(null);
+function ServicesCompactGrid() {
+  const [activeFilter, setActiveFilter] = useState('All Disciplines (9)');
 
-  const active = divisions[activeIndex];
-  const wireFillRef = useRef(null);
-
-  // The "wire" is a literal visualization of the page's own message — nine
-  // separate disciplines wired into one continuous, accountable system —
-  // scrubbed to scroll position as the list itself is read top to bottom.
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.fromTo(
-        wireFillRef.current,
-        { height: '0%' },
-        {
-          height: '100%',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 35%',
-            end: 'bottom 65%',
-            scrub: 0.3,
-          },
-        }
-      );
-
-      const nums = containerRef.current.querySelectorAll('.list-item-num');
-      nums.forEach((num) => {
-        gsap.to(num, {
-          color: '#9c6a1f',
-          scale: 1.15,
-          duration: 0.3,
-          scrollTrigger: {
-            trigger: num,
-            start: 'top 62%',
-            end: 'bottom 45%',
-            toggleActions: 'play reverse play reverse',
-          },
-        });
-      });
-    });
-    return () => mm.revert();
-  }, { scope: containerRef });
+  const filtered = activeFilter === 'All Disciplines (9)'
+    ? servicesList
+    : servicesList.filter((s) => s.category.includes(activeFilter) || activeFilter.includes(s.category));
 
   return (
-    <div className="designer-layout">
-      <div ref={containerRef} className="designer-list" style={{ position: 'relative' }}>
-        <div className="designer-wire-track" aria-hidden="true">
-          <div ref={wireFillRef} className="designer-wire-fill" />
-        </div>
-        {divisions.map((div, i) => {
-          const isOpen = openIndex === i;
-          return (
-            <div key={div.title}>
-              <div
-                className="designer-list-item"
-                onMouseEnter={() => setActiveIndex(i)}
-                onFocus={() => setActiveIndex(i)}
-                onClick={() => setOpenIndex(isOpen ? null : i)}
-                role="button"
-                tabIndex={0}
-                aria-expanded={isOpen}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpenIndex(isOpen ? null : i); } }}
-                style={{ cursor: 'pointer', flexWrap: 'wrap' }}
-              >
-                <span className="list-item-num">{String(i + 1).padStart(2, '0')}</span>
-                <span className="list-item-title" style={{ flex: 1, padding: '0 24px' }}>{div.title}</span>
-                <motion.span
-                  animate={{ rotate: isOpen ? 45 : 0 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ fontSize: '2rem', fontWeight: 300, color: 'var(--text-muted)', flexShrink: 0 }}
-                  aria-hidden="true"
-                >
-                  +
-                </motion.span>
-              </div>
-              <AnimatePresence initial={false}>
-                {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ overflow: 'hidden', borderBottom: '1px solid var(--border-subtle)' }}
-                  >
-                    <ul style={{ listStyle: 'none', padding: '8px 0 36px', margin: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px 32px' }}>
-                      {div.items.map((item) => (
-                        <li key={item} style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', display: 'flex', gap: '14px' }}>
-                          <span style={{ color: 'var(--accent-gold)' }}>—</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          );
-        })}
+    <div className="services-grid-wrapper">
+      {/* Category Pills */}
+      <div className="services-filter-row">
+        {filterCategories.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            className={`services-filter-btn ${activeFilter === cat ? 'active' : ''}`}
+            onClick={() => setActiveFilter(cat)}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
-      {/* Static preview panel — crossfades to match the hovered/focused
-          division instead of a thumbnail chasing the cursor. */}
-      <div className="designer-preview">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={active.img}
-            src={active.img}
-            alt=""
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            aria-hidden="true"
-          />
+      {/* 3x3 Animated Compact Grid */}
+      <motion.div layout className="services-compact-grid">
+        <AnimatePresence>
+          {filtered.map((service, index) => (
+            <motion.div
+              layout
+              key={service.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.4, delay: (index % 3) * 0.08 }}
+              whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              className="service-compact-card"
+            >
+              {/* Image Banner */}
+              <div className="service-card-media-box">
+                <img src={service.img} alt={service.title} loading="lazy" />
+                <div className="service-card-media-vignette" />
+                <div className="service-card-header-pills">
+                  <span className="service-card-num">{service.num}</span>
+                  <span className="service-card-cat">{service.category}</span>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="service-compact-body">
+                <h3 className="service-compact-title">{service.title}</h3>
+                <p className="service-compact-desc">{service.desc}</p>
+
+                {/* Bullet Points */}
+                <ul className="service-compact-points">
+                  {service.points.map((pt) => (
+                    <li key={pt}>
+                      <CheckCircle size={15} weight="fill" color="#E5A93C" className="point-icon" />
+                      <span>{pt}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Bottom Action */}
+                <div className="service-compact-footer">
+                  <Link to="/contact" className="service-contact-link">
+                    <span>Inquire for Scope</span>
+                    <ArrowRight size={14} weight="bold" />
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </AnimatePresence>
-        <div className="designer-preview-caption">{active.title}</div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -195,25 +240,28 @@ function DesignerList() {
 export default function Services() {
   return (
     <main id="main">
-
       <SectionHero
         eyebrow="Capabilities"
         title={'COMPREHENSIVE\nEPC SOLUTIONS'}
         lead="Nine integrated solution areas covering electrical contracting, power & utility infrastructure, data centers, automation, ELV, fire & life safety, and retrofit & maintenance — supply through commissioning, under one accountable scope."
         badgeLabel="Solutions Portfolio"
         badgeValue="9 Disciplines"
-        image="/assets/img/services-datacenter.png"
+        image="/assets/img/hero-services.jpg"
         imageAlt="ProPower data center critical power installation"
       />
 
-      <div className="container" style={{ paddingBottom: '80px' }}>
-        <RevealOnScroll style={{ maxWidth: '620px', marginBottom: '56px', borderTop: '2px solid var(--text-main)', paddingTop: '32px' }}>
-          <span className="eyebrow">Browse the Portfolio</span>
-          <p style={{ fontSize: '1.2rem', color: 'var(--text-main)', lineHeight: 1.6 }}>
-            Every discipline below is delivered in-house under one accountable scope — select any to see exactly what it covers.
+      <div className="container" style={{ paddingBottom: '90px' }}>
+        <RevealOnScroll style={{ maxWidth: '780px', marginBottom: '32px', borderTop: '2px solid rgba(255,255,255,0.12)', paddingTop: '28px' }}>
+          <span className="eyebrow">Portfolio Grid</span>
+          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', letterSpacing: '-0.02em', color: '#ffffff', marginBottom: '12px', fontWeight: 700 }}>
+            Nine Engineering Disciplines
+          </h2>
+          <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+            Every discipline is engineered by our certified in-house teams under single-source EPC accountability.
           </p>
         </RevealOnScroll>
-        <DesignerList />
+
+        <ServicesCompactGrid />
       </div>
 
       {/* In-house testing capability */}
@@ -233,13 +281,14 @@ export default function Services() {
             <RevealOnScroll delay={0.1}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
                 {capabilities.map((cap) => (
-                  <div
+                  <GlassCard
                     key={cap.label}
-                    style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '18px 20px', background: 'var(--bg-white)', border: '1px solid var(--border-subtle)', borderRadius: '16px' }}
+                    className="cap-card card-3d"
+                    animateEntrance={false}
                   >
                     <cap.icon size={22} weight="duotone" color="var(--accent-gold)" style={{ flexShrink: 0 }} />
                     <span style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-main)', lineHeight: 1.3 }}>{cap.label}</span>
-                  </div>
+                  </GlassCard>
                 ))}
               </div>
             </RevealOnScroll>

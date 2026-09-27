@@ -54,6 +54,8 @@ export default function Footer() {
                 <li><Link to="/services">Capabilities</Link></li>
                 <li><Link to="/industries">Industries</Link></li>
                 <li><Link to="/contact">Get in Touch</Link></li>
+                <li><Link to="/terms">Terms &amp; Conditions</Link></li>
+                <li><Link to="/privacy">Privacy Policy</Link></li>
               </ul>
             </div>
           </RevealOnScroll>
@@ -70,9 +72,19 @@ export default function Footer() {
           </RevealOnScroll>
         </div>
 
-        <div className="footer-bottom" style={{ width: '100%', borderTopColor: 'var(--text-main)', paddingTop: '40px' }}>
-          <span>© {year} ProPower L.L.C. All rights reserved.</span>
-          <span>Designed with Precision.</span>
+        <div className="footer-bottom" style={{ width: '100%', borderTop: '1px solid var(--border-subtle)', paddingTop: '32px', marginTop: '48px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+            © {year} ProPower Engineering &amp; Contracting L.L.C. All rights reserved.
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px', fontSize: '0.85rem' }}>
+            <Link to="/terms" style={{ color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s ease' }}>
+              Terms &amp; Conditions
+            </Link>
+            <span style={{ color: 'var(--border-subtle)' }}>•</span>
+            <Link to="/privacy" style={{ color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 0.2s ease' }}>
+              Privacy Policy
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -12,6 +12,8 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Industries from './pages/Industries';
 import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -25,6 +27,8 @@ function AnimatedRoutes() {
           <Route path="/services" element={<Services />} />
           <Route path="/industries" element={<Industries />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </PageTransition>
     </>

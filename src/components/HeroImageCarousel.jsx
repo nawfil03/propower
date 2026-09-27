@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const heroImages = [
   {
-    src: '/assets/img/hero-wide.png',
+    src: '/assets/img/hero-services.jpg',
     title: 'High-Voltage Substation Engineering',
     subtitle: 'Turnkey T&D Solutions up to 132kV across UAE & GCC',
     badge: 'ISO 9001:2015 Certified',
@@ -15,13 +15,13 @@ const heroImages = [
     badge: 'SEWA · DEWA · EtihadWE Aligned',
   },
   {
-    src: '/assets/img/hero-engineer.png',
+    src: '/assets/img/hero-contact.jpg',
     title: 'In-House Testing & Commissioning',
     subtitle: 'Primary/Secondary Injection, Breaker Analysis & Protection Relays',
     badge: 'ISO 45001:2018 Safety Standards',
   },
   {
-    src: '/assets/img/services-datacenter.png',
+    src: '/assets/img/hero-industries.jpg',
     title: 'Critical Power & Data Center Solutions',
     subtitle: 'UPS, Battery Systems, Power Distribution & Life Safety Works',
     badge: 'Turnkey Infrastructure Capability',
@@ -47,11 +47,11 @@ export default function HeroImageCarousel() {
           key={current.src}
           src={current.src}
           alt={current.title}
-          initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, scale: 0.98, filter: 'blur(6px)' }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          initial={{ opacity: 0, scale: 1.03 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', willChange: 'opacity, transform' }}
         />
       </AnimatePresence>
 
