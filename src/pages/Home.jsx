@@ -79,9 +79,9 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          style={{ fontSize: 'clamp(1.1rem, 2vw, 1.35rem)', color: 'rgba(255,255,255,0.85)', margin: '28px auto 0', maxWidth: '720px', lineHeight: 1.6, fontWeight: 400 }}
+          style={{ fontSize: 'clamp(1.05rem, 1.8vw, 1.25rem)', color: 'rgba(255,255,255,0.88)', margin: '28px auto 0', maxWidth: '880px', lineHeight: 1.65, fontWeight: 400 }}
         >
-          Single-source electrical contracting, high-voltage transmission &amp; distribution, substation engineering, and field testing &amp; commissioning across UAE &amp; GCC region.
+          Single-source Electrical EPC, power transmission &amp; distribution services, power cable laying works, substation construction, Testing &amp; commissioning, and critical asset Maintenance—alongside specialized expertise in protection, SCADA/SCMS, and fiber optic solutions across the UAE &amp; GCC region.
         </motion.p>
 
         <motion.div
