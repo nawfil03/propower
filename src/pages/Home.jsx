@@ -236,10 +236,10 @@ function VisionText() {
 function CoreDisciplines() {
   const containerRef = useRef(null);
   const items = [
-    { title: 'Substations & Grid up to 220kV', img: '/assets/img/hero-services.jpg', span: 'span 2', rowSpan: 'span 2' },
-    { title: 'Power Transmission & Distribution', img: '/assets/img/hero-industries.jpg', span: 'span 2', rowSpan: 'span 1' },
-    { title: 'Data Center Critical Power', img: '/assets/img/services-datacenter.png', span: 'span 1', rowSpan: 'span 1' },
-    { title: 'Testing & Commissioning', img: '/assets/img/hero-contact.jpg', span: 'span 1', rowSpan: 'span 1' },
+    { title: 'Substations & Grid up to 220kV', img: '/assets/img/hero-services.jpg', cardClass: 'core-card-0', isFeatured: true },
+    { title: 'Power Transmission & Distribution', img: '/assets/img/hero-industries.jpg', cardClass: 'core-card-1', isFeatured: false },
+    { title: 'Data Center Critical Power', img: '/assets/img/services-datacenter.png', cardClass: 'core-card-2', isFeatured: false },
+    { title: 'Testing & Commissioning', img: '/assets/img/hero-contact.jpg', cardClass: 'core-card-3', isFeatured: false },
   ];
 
   useGSAP(() => {
@@ -270,23 +270,20 @@ function CoreDisciplines() {
           <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4.25rem)', letterSpacing: '-0.03em', color: 'var(--text-main)', fontWeight: 700 }}>Core Disciplines</h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gridAutoRows: '280px', gap: '20px' }}>
+        <div className="core-disciplines-grid">
           {items.map((item, i) => (
             <GlassCard 
               key={i}
-              className="core-card card-3d"
+              className={`core-card card-3d ${item.cardClass}`}
               animateEntrance={false}
-              style={{ 
-                gridColumn: item.span, gridRow: item.rowSpan,
-                cursor: 'pointer'
-              }}
+              style={{ cursor: 'pointer' }}
             >
               <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5, transition: 'transform 0.8s var(--ease-apple), opacity 0.4s ease' }} 
                 className="core-card-img"
               />
               <div style={{ position: 'absolute', bottom: '28px', left: '28px', right: '28px', zIndex: 10 }}>
                 <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--accent-gold-light)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>{String(i + 1).padStart(2, '0')}</span>
-                <h3 style={{ color: 'var(--text-main)', fontSize: item.rowSpan === 'span 2' ? '2.25rem' : '1.35rem', lineHeight: 1.15, margin: '8px 0 0', letterSpacing: '-0.02em', fontWeight: 700 }}>
+                <h3 className="core-card-heading" style={{ color: 'var(--text-main)', fontSize: item.isFeatured ? 'clamp(1.5rem, 2.5vw, 2.25rem)' : 'clamp(1.2rem, 1.8vw, 1.35rem)', lineHeight: 1.15, margin: '8px 0 0', letterSpacing: '-0.02em', fontWeight: 700 }}>
                   {item.title}
                 </h3>
               </div>

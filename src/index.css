@@ -1843,4 +1843,101 @@ p {
   }
 }
 
+/* ── Core Disciplines Responsive Bento Grid ── */
+.core-disciplines-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 280px;
+  gap: 20px;
+  width: 100%;
+}
+
+.core-card-0 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.core-card-1 {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.core-card-2 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.core-card-3 {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+/* Tablet view: 2x2 balanced grid */
+@media (max-width: 992px) {
+  .core-disciplines-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-auto-rows: 260px !important;
+    gap: 16px !important;
+  }
+  .core-card-0,
+  .core-card-1,
+  .core-card-2,
+  .core-card-3 {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    height: 100% !important;
+    min-height: 260px !important;
+  }
+}
+
+/* Mobile view: single clean vertical stack so every single card is fully visible */
+@media (max-width: 640px) {
+  .core-disciplines-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+  .core-card,
+  .core-card-0,
+  .core-card-1,
+  .core-card-2,
+  .core-card-3 {
+    width: 100% !important;
+    height: 240px !important;
+    min-height: 240px !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* ── Netlify Badge & Drawer Complete Suppression ── */
+#netlify-drawer,
+[data-netlify-drawer],
+netlify-drawer,
+.netlify-badge,
+[data-netlify-badge],
+#netlify-badge,
+iframe[src*="netlify"],
+div[id*="netlify"],
+div[class*="netlify"],
+a[href*="netlify.com"][class*="badge"],
+a[href*="netlify.app"][class*="badge"],
+.netlify-identity-menu,
+.feedback-badge {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  z-index: -9999 !important;
+}
+
 

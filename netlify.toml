@@ -1,0 +1,30 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.processing]
+  skip_processing = false
+
+# Disable Netlify Drawer & Collaborative Feedback Badge on all environments
+[context.production.environment]
+  NETLIFY_FEEDBACK = "false"
+
+[context.deploy-preview.environment]
+  NETLIFY_FEEDBACK = "false"
+
+[context.branch-deploy.environment]
+  NETLIFY_FEEDBACK = "false"
+
+# Single-Page Application (SPA) redirect rules
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security and header policies
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
