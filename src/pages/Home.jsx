@@ -327,7 +327,7 @@ function SolutionAreas() {
   }, { scope: gridRef });
 
   const areas = [
-    { icon: PlugsConnected, title: 'Electrical Engineering & Contracting', desc: 'LV/MV electrical systems, power cabling, distribution panels, busbar trunking, earthing & lightning protection.' },
+    { icon: PlugsConnected, title: 'EPC / Turnkey Contracting', desc: 'Single-source execution managing complete project lifecycles from engineering and procurement to site construction, integration, and handover.' },
     { icon: Lightning, title: 'Power, Utility & Energy', desc: 'Transmission & distribution up to 220kV, substations, transformers, protection & control, solar energy.' },
     { icon: Buildings, title: 'Data Center Solutions', desc: 'Critical power systems, UPS & battery banks, power distribution units, remote monitoring & BMS integration.' },
     { icon: Gauge, title: 'Industrial Automation', desc: 'Instrumentation, PLC / SCADA / HMI programming, automation panels, VFD & motor control centers.' },

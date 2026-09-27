@@ -21,14 +21,14 @@ const servicesList = [
   {
     id: 1,
     num: '01',
-    title: 'Electrical Engineering & Contracting',
+    title: 'EPC/Turnkey Contracting',
     category: 'Power & Utility',
-    desc: 'Comprehensive LV/MV electrical systems design, turnkey installation, power cabling networks, and custom MDB switchboards.',
+    desc: 'Single-source execution managing your complete project lifecycle—from engineering and procurement to site construction, integration, and handover for utility(substation), Industries, Oil & Gas and infrastructure.',
     img: '/assets/img/hero-engineer.png',
     points: [
-      'LV/MV electrical systems design & installation',
-      'Power cabling & heavy cable termination',
-      'Main distribution boards (MDB) & switchgear',
+      'End-to-End Project Management',
+      'Engineering, Procurement & Construction (EPC)',
+      'Utility & Industrial Execution',
     ],
   },
   {
