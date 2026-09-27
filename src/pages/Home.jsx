@@ -45,7 +45,7 @@ function Hero() {
         <img ref={bgRef} src="/assets/img/hero-infrastructure.png" alt="" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover', transformOrigin: 'center center' }} />
       </div>
 
-      <div ref={contentRef} style={{ maxWidth: '920px', margin: '0 auto', zIndex: 5, position: 'relative' }}>
+      <div ref={contentRef} style={{ maxWidth: '1120px', margin: '0 auto', zIndex: 5, position: 'relative' }}>
         
         {/* Telemetry Badge */}
         <motion.div
@@ -66,12 +66,12 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <h1 style={{ fontSize: 'clamp(3.2rem, 8vw, 8rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 0.9, color: '#ffffff', textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}>
-            ENGINEERING<br/>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 5.8vw, 5.8rem)', fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1.02, color: '#ffffff', textShadow: '0 4px 24px rgba(0,0,0,0.6)' }}>
+            END-TO-END<br/>
             <span style={{ background: 'linear-gradient(135deg, #f5c878 0%, #c4903f 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              CRITICAL
+              POWER &amp; INFRASTRUCTURE
             </span><br/>
-            POWER GRID
+            SOLUTIONS
           </h1>
         </motion.div>
 
