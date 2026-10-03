@@ -1,16 +1,57 @@
-# React + Vite
+# ⚡ ProPower Engineering & Contracting — Company Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, minimalist website for **ProPower Engineering & Contracting L.L.C.**, an electrical power solutions company serving the UAE & GCC.
 
-Currently, two official plugins are available:
+The site presents the company's capabilities in electrical contracting, power transmission & distribution, cable laying, retrofit/upgradation, testing & commissioning, and operation & maintenance — with a focus on brand awareness and lead generation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Pages: **Home · About · Services · Industries · Contact**
+- Animated page transitions and preloader
+- Scroll-driven effects: scroll progress bar, reveal-on-scroll, scroll-fill sections, video background
+- Hero image carousel, count-up statistics, marquee, word cycling text
+- Custom cursor, magnetic buttons and glassmorphism cards
+- Fully responsive
 
-## Expanding the Oxlint configuration
+## 🛠️ Tech stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+React 19 · Vite · React Router · Framer Motion · Oxlint
+
+## 🗂️ Project structure
+
+```
+src/
+  pages/         # Home, About, Services, Industries, Contact
+  components/    # Header, Footer, CTA, Preloader, CustomCursor, animations …
+  App.jsx        # Routes + page transitions
+  main.jsx
+content.txt                 # Website content brief
+Website -  Pro Power.docx   # Original content document
+```
+
+## 🚀 How to run locally
+
+Requires **Node.js 18+**.
+
+```bash
+git clone https://github.com/nawfil03/propower.git
+cd propower
+npm install
+npm run dev
+```
+
+Open http://localhost:5173.
+
+### Other commands
+
+```bash
+npm run build      # production build -> dist/
+npm run preview    # preview the build
+npm run lint       # run Oxlint
+```
+
+---
+
+👤 Built by **Nawfil Faraaz** · [GitHub](https://github.com/nawfil03)
